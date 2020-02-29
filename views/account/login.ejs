@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4DA5F4" />
+    <meta name="csrf-token" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+  </head>
+  <body>
+    <%- include('../partials/header'); -%>
+    <div class="pb-2 mt-2 mb-4 border-bottom">
+    <h3><center>Sign in</center></h3>
+</div>
+<form method="POST"><input type="hidden" name="_csrf" />
+    <div class="form-group row"><label class="col-md-3 col-form-label font-weight-bold text-right" for="email">Email</label>
+        <div class="col-md-7"><input class="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="autofocus" autocomplete="email" required="required" /></div>
+    </div>
+    <div class="form-group row"><label class="col-md-3 col-form-label font-weight-bold text-right" for="password">Password</label>
+        <div class="col-md-7"><input class="form-control" type="password" name="password" id="password" placeholder="Password" autocomplete="current-password" required="required" /></div>
+    </div>
+    <div class="form-group">
+        <div class="offset-md-3 col-md-7 pl-2"><button class="col-md-3 btn btn-primary" type="submit">Login</button><a class="btn btn-link" href="/forgot">Forgot your password?</a></div>
+    </div>
+    <div class="form-group">
+        <div class="offset-md-3 col-md-7 pl-2">
+            <hr />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="offset-md-3 col-md-7 pl-2"><a class="btn btn-block btn-snapchat btn-social" href="/auth/snapchat"><i class="fab fa-snapchat-ghost fa-sm"></i>Sign in with Snapchat</a><a class="btn btn-block btn-facebook btn-social" href="/auth/facebook"><i class="fab fa-facebook-f fa-sm"></i>Sign in with Facebook</a><a class="btn btn-block btn-twitter btn-social" href="/auth/twitter"><i class="fab fa-twitter fa-sm"></i>Sign in with Twitter</a><a class="btn btn-block btn-google btn-social" href="/auth/google"><i class="fab fa-google-plus-g fa-xs"></i>Sign in with Google</a></div>
+    </div>
+</form>
+ 
+
+  </body>
+</html>
+
+
+
+
+
+
