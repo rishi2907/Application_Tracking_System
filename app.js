@@ -52,6 +52,7 @@ app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
+app.get('/test',userController.testDone);
 app.use('/', indexRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

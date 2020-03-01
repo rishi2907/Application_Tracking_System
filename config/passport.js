@@ -2,15 +2,7 @@ const passport = require('passport');
 const { Strategy: LocalStrategy } = require('passport-local');
 const User = require('../models/User');
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
 
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
-    done(err, user);
-  });
-});
 
 passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
     User.findOne({ email: email.toLowerCase() }, (err, user) => {
@@ -30,3 +22,13 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, don
       });
     });
   }));
+
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+  
+  passport.deserializeUser((id, done) => {
+    User.findById(id, (err, user) => {
+      done(err, user);
+    });
+  });

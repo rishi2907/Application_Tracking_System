@@ -12,6 +12,15 @@ exports.getLogin = (req, res) => {
     });
   };
 
+  exports.logDone = (req, res) => {
+    console.log("redirecting test");
+    console.log(req.user);
+    res.render('index', {
+      email: req.user.email,
+      loggedIn:true
+    });
+  };
+
 
   exports.getSignup = (req, res) => {
     if (req.user) {
@@ -42,7 +51,10 @@ exports.getLogin = (req, res) => {
       req.logIn(user, (err) => {
         if (err) { return next(err); }
         req.flash('success', { msg: 'Success! You are logged in.' });
-        res.redirect(req.session.returnTo || '/');
+        /*res.redirect(req.session.returnTo || '/');*/
+        res.redirect('/loggedIn');
+        
+
       });
     })(req, res, next);
   };
@@ -64,7 +76,7 @@ exports.getLogin = (req, res) => {
     const user = new User({
       email: req.body.email,
       password: req.body.password
-    });
+    }); 
   
     User.findOne({ email: req.body.email }, (err, existingUser) => {
       if (err) { return next(err); }
@@ -74,12 +86,13 @@ exports.getLogin = (req, res) => {
       }
       user.save((err) => {
         if (err) { return next(err); }
-        req.logIn(user, (err) => {
+        res.redirect('/login');
+        /*req.logIn(user, (err) => {
           if (err) {
             return next(err);
           }
           res.redirect('/');
-        });
+        });*/
       });
     });
     
