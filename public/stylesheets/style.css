@@ -8,6 +8,10 @@ a {
   color: #00B7FF;
 }
 
+.outer{
+  margin-bottom: 20px;
+}
+
 .outer img {
   width: 100%;
   height: auto;

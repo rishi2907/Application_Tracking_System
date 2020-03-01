@@ -1,0 +1,23 @@
+<% for(var i=0; i< JobCard.length ; i++) {%>
+    <% if (JobCard[i].tech == false) { %>
+    <div class="container">
+      <div class="card shadow p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+        <div class="row">
+      <div class="col-8"><h3 class="card-title"><%= JobCard[i].job_name %></h3></div>
+      <div class="col-4"><a href="#" class="btn btn-primary stretched-link float-right">Apply Now</a></div>
+    </div>
+    <div class="row">
+      <div class="col-4 font-italic"><h6>Experience Required : <%= JobCard[i].experience_required %> </h6></div>
+      <div class="col-4 font-italic"><h6>Salary offer : <%= JobCard[i].salary %> </h6></div>
+    </div>
+    <div class="row">
+      <div class="col-4 font-italic"><h6>full Time : <%= JobCard[i].mode %></h6></div>
+      <div class="col-4 font-italic"><h6>eligibility : <%= JobCard[i].eligibility %></h6></div>
+    </div>
+    <p> <%= JobCard[i].description %>  <a href="#">Know More</a></div></p>
+        
+        </div>
+      </div>
+      <% } %>
+  <% } %>
