@@ -1,6 +1,7 @@
 const validator = require('validator');
 const passport = require('passport');
 const User = require('../models/User');
+var {getJobCard}= require('../routes/JobCard');
 
 exports.getLogin = (req, res) => {
     if (req.user) {
@@ -12,13 +13,52 @@ exports.getLogin = (req, res) => {
     });
   };
 
+  exports.applyNow = (req, res) => {
+    if (req.user) {
+      return res.render('stepper');
+    }
+    return res.redirect('/login');
+    
+  };
+
   exports.logDone = (req, res) => {
-    console.log("redirecting test");
+    console.log("logging int");
     console.log(req.user);
     res.render('index', {
       email: req.user.email,
-      loggedIn:true
+      loggedIn:true,
+      JobCard : getJobCard
     });
+  };
+
+  exports.logoutDone = (req, res) => {
+    /*console.log("logging out");
+    console.log(req.session);
+    req.logout();
+    console.log("logout executed");
+    console.log(req.session);
+    req.flash('success_msg','you are logged out');
+    req.session.destroy((err) => {
+      if (err) 
+      { 
+        console.log('Error : Failed to destroy the session during logout.', err);
+      }
+      req.user = null;
+      res.render('index', {
+        email: "noreply@gmail.com",
+        loggedIn:false,
+        JobCard : getJobCard
+      });
+     });*/
+     console.log("logging out");
+     req.logout();
+     console.log("finished");
+     res.render('index', {
+      email: "noreply@gmail.com",
+      loggedIn:false,
+      JobCard : getJobCard
+    });
+
   };
 
 

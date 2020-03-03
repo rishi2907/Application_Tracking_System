@@ -31,11 +31,20 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// app.use(session({
+//   resave: true,
+//   saveUninitialized: true,
+//   secret: "topsecret",
+//   cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
+//   store: new MongoStore({
+//     mongooseConnection:db
+//   })
+// }));
 app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: "topsecret",
-  cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
+  cookie: { maxAge: 86400000 }, // two weeks in milliseconds
   store: new MongoStore({
     mongooseConnection:db
   })
@@ -52,7 +61,9 @@ app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
-app.get('/test',userController.testDone);
+app.get('/loggedIn',userController.logDone);
+app.get('/logout',userController.logoutDone);
+app.get('/apply',userController.applyNow);
 app.use('/', indexRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

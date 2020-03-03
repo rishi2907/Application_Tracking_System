@@ -8,6 +8,12 @@ a {
   color: #00B7FF;
 }
 
+.outer{
+  position: relative;
+  margin-bottom: 20px;
+
+}
+
 .outer img {
   width: 100%;
   height: auto;

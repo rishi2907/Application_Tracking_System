@@ -13,11 +13,22 @@
     <link rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
-    <%- include('../partials/header'); -%>
+    <%- include('../partials/header1'); -%>
+    <% if(messages.errors) {%>
+      <div class="alert alert-danger fade show">
+        <button class="close" type="button" data-dismiss="alert">
+          <i class="far fa-times-circle">
+          </i>
+        </button>
+        <% for(let error of messages.errors){%>
+          <%=error.msg%>
+          <%}%>
+      </div>
+      
+    <%}%>
     <div class="pb-2 mt-2 mb-4 border-bottom">
         <h3><center>Sign up</center></h3>
     </div>
-    
     <form id="signup-form" method="POST" ><input type="hidden" name="_csrf" />
         <div class="form-group row"><label class="col-md-3 col-form-label font-weight-bold text-right" for="email">Email</label>
             <div class="col-md-7"><input class="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="autofocus" autocomplete="email" required="required" /></div>
