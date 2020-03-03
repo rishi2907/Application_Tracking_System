@@ -25,7 +25,7 @@ exports.getLogin = (req, res) => {
     console.log("logging int");
     console.log(req.user);
     res.render('index', {
-      email: req.user.email,
+      name: req.user.name,
       loggedIn:true,
       JobCard : getJobCard
     });
@@ -112,10 +112,15 @@ exports.getLogin = (req, res) => {
       return res.redirect('/signup');
     }
     req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
+    // var name = req.body.name[0].toUpperCase() +  
+    //         req.body.name.slice(1);
+
+    var name=req.body.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
   
     const user = new User({
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      name: name
     }); 
   
     User.findOne({ email: req.body.email }, (err, existingUser) => {

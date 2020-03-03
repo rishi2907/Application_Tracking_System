@@ -2,34 +2,27 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, unique: true },
-  password: String,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  emailVerificationToken: String,
-  emailVerified: Boolean,
+// const jobSchema = new mongoose.Schema({
+//   name: { type: String},
+//   salary: Number,
+//   eligibility: String,
+//   experience: String,
+//   type: String,
+//   description: String,
+//   jobForm: String,
+//   applicants:[String]
+// }, { timestamps: true });
 
-  snapchat: String,
-  facebook: String,
-  twitter: String,
-  google: String,
-  github: String,
-  instagram: String,
-  linkedin: String,
-  steam: String,
-  quickbooks: String,
-  tokens: Array,
-
-  profile: {
-    name: String,
-    gender: String,
-    location: String,
-    website: String,
-    picture: String
-  }
-}, { timestamps: true });
+const jobSchema = new mongoose.Schema({
+    name: {type: String},
+    salary: Number,
+    eligibility: String,
+    experience: String,
+    type: String,
+    description: String,
+    jobForm: String,
+    applicants:[String]
+  });
 
 /**
  * Password hash middleware.
@@ -70,6 +63,6 @@ userSchema.methods.gravatar = function gravatar(size) {
   return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
 
-const User = mongoose.model('User', userSchema);
+const Job = mongoose.model('Job', jobSchema);
 
-module.exports = User;
+module.exports = Job;
