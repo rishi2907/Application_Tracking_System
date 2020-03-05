@@ -11,7 +11,8 @@ router.get('/', function(req, res, next) {
   res.render('index', {
     name: req.user.name,
     loggedIn:true,
-    JobCard : getJobCard
+    JobCard : getJobCard,
+    tag: 1
   });
 
  }else{
@@ -19,7 +20,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { 
     loggedIn:false,
     name:"anonymous",
-    JobCard : getJobCard
+    JobCard : getJobCard,
+    tag: 1
  });
 
 }

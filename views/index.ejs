@@ -28,8 +28,15 @@
     <div class="outer">
       <img src="https://www.iiitdmj.ac.in/img/slides/2.jpg" alt="iiitdm" height="600" width="100%"  />
       <!-- <img src="/images/iiitdm.jpg" alt="iiitdm" height="600" width="100%"  /> -->
-      <button class="button1">Technical Openings</button>
-      <button class="button2">NonTechnical Openings</button>
+      <form method="GET" action="/button1">
+        <button class="button1">Technical Openings</button>
+      </form>
+
+      <form method="GET" action="/button2">
+        <button class="button2">Non Technical Openings</button>
+      </form>
+      <!-- <button class="button1">Technical Openings</button> -->
+      <!-- <button class="button2">NonTechnical Openings</button> -->
     </div> 
     <%- include('./partials/JobCard'); -%>
 

@@ -8,6 +8,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
 var userController = require('./controllers/user');
 const passport = require('passport');
 const mongoose = require('mongoose');
@@ -57,6 +58,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 console.log("reached");
 app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/signup', userController.getSignup);
@@ -64,6 +66,8 @@ app.post('/signup', userController.postSignup);
 app.get('/loggedIn',userController.logDone);
 app.get('/logout',userController.logoutDone);
 app.get('/apply',userController.applyNow);
+app.get('/button1',userController.clickButton1);
+app.get('/button2',userController.clickButton2);
 app.use('/', indexRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

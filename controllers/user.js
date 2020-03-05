@@ -3,6 +3,56 @@ const passport = require('passport');
 const User = require('../models/User');
 var {getJobCard}= require('../routes/JobCard');
 
+
+exports.clickButton1 = (req, res) => {
+
+  if(req.user){
+   res.render('index', {
+     name: req.user.name,
+     loggedIn:true,
+     JobCard : getJobCard,
+     tag: 1
+   });
+ 
+  }else{
+    console.log("2 called");
+   res.render('index', { 
+     loggedIn:false,
+     name:"anonymous",
+     JobCard : getJobCard,
+     tag: 1
+  });
+ 
+ }
+ 
+};
+
+
+exports.clickButton2 = (req, res) => {
+
+  if(req.user){
+   res.render('index', {
+     name: req.user.name,
+     loggedIn:true,
+     JobCard : getJobCard,
+     tag: 2
+   });
+ 
+  }else{
+    console.log("2 called");
+   res.render('index', { 
+     loggedIn:false,
+     name:"anonymous",
+     JobCard : getJobCard,
+     tag: 2
+  });
+ 
+ }
+ 
+};
+
+
+
 exports.getLogin = (req, res) => {
     if (req.user) {
       return res.redirect('/');
@@ -27,7 +77,8 @@ exports.getLogin = (req, res) => {
     res.render('index', {
       name: req.user.name,
       loggedIn:true,
-      JobCard : getJobCard
+      JobCard : getJobCard,
+      tag: 1
     });
   };
 
@@ -56,7 +107,8 @@ exports.getLogin = (req, res) => {
      res.render('index', {
       email: "noreply@gmail.com",
       loggedIn:false,
-      JobCard : getJobCard
+      JobCard : getJobCard,
+      tag: 1
     });
 
   };
@@ -78,7 +130,7 @@ exports.getLogin = (req, res) => {
   
     if (validationErrors.length) {
       req.flash('errors', validationErrors);
-      return res.redirect('/login');
+      return res.redirect('login');
     }
     req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
   
@@ -92,7 +144,7 @@ exports.getLogin = (req, res) => {
         if (err) { return next(err); }
         req.flash('success', { msg: 'Success! You are logged in.' });
         /*res.redirect(req.session.returnTo || '/');*/
-        res.redirect('/loggedIn');
+        res.redirect('/');
         
 
       });
