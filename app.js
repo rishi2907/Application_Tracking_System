@@ -63,7 +63,7 @@ app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/signup', userController.getSignup);
 app.post('/signup', userController.postSignup);
-app.get('/loggedIn',userController.logDone);
+// app.get('/loggedIn',userController.logDone);
 app.get('/logout',userController.logoutDone);
 app.get('/apply',userController.applyNow);
 app.get('/button1',userController.clickButton1);

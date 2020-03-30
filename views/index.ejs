@@ -17,11 +17,12 @@
   </head>
   <body>
 
-    <% if(loggedIn==false) {%>
+  
+    <% if(name=="login_req") {%>
       <%- include('./partials/header1'); -%>
     <% } %>
 
-    <% if(loggedIn==true) {%>
+    <% if(name!="login_req") {%>
       <%- include('./partials/header2'); -%>
     <% } %>
 
