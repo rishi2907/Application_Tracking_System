@@ -3,6 +3,11 @@ const passport = require('passport');
 const Admin = require('../models/Admin');
 
 
+exports.showChart = (req, res) => {
+    res.render('admin/showChart');
+   
+};
+
 exports.getSignup = (req, res) => {
   if (req.user) {
     return res.redirect('/admin/');

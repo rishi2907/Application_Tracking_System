@@ -10,6 +10,7 @@ var adminController = require('../controllers/admin');
 
 
 router.get('/register', adminController.getSignup);
+router.get('/showChart', adminController.showChart);
 router.post('/register', adminController.postSignup);
 router.get('/login', adminController.getLogin);
 router.post('/login', adminController.postLogin);
