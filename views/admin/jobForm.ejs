@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Post a Job</title>
+        <link href="/admin/css/style.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand" href="/">Job Portal</a><button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button
+            ><!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <!-- <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div> -->
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <div class="dropdown-item">Hi <%=name%>!</div>
+                        <!-- <a class="dropdown-item" href="#">Settings</a><a class="dropdown-item" href="#">Activity Log</a> -->
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="/admin"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard</a
+                            >
+                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Job 
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <!-- <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Static Navigation</a><a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a></nav> -->
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="/admin/postjob">Post a Job</a><a class="nav-link" href="#">Create Dynamic Form</a></nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Applications
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                            ></a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth"
+                                        >Accept/Reject 
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                                    ></a>
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                        <!-- <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="login.html">Login</a><a class="nav-link" href="register.html">Register</a><a class="nav-link" href="password.html">Forgot Password</a></nav> -->
+                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError"
+                                        >Selected Candidates
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div
+                                    ></a>
+                                    <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                        <!-- <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="401.html">401 Page</a><a class="nav-link" href="404.html">404 Page</a><a class="nav-link" href="500.html">500 Page</a></nav> -->
+                                    </div>
+                                </nav>
+                            </div>
+                            <!-- include karna hai iss code ko -->
+                            <!-- <div class="sb-sidenav-menu-heading">Addons</div>
+                            <a class="nav-link" href="/admin/showChart"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts</a
+                            ><a class="nav-link" href="tables.html"
+                                ><div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables</a
+                            > -->
+                        </div>
+                            
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        <%=name%>
+
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid">
+                        <br>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Post a Job</li>
+                        </ol>
+                        <h2 class="mt-4">Post a Job</h2>
+                        <form id="jobform" action="/admin/postjob" method="POST">
+                          <div id="form1">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="jobtitle">Job Title</label>
+                                  <input type="text" class="form-control" placeholder="" id="jobtitle" name="jobtitle" >
+                                </div>
+                              </div>                        
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="salary">Salary Offered</label>
+                                  <input type="text" class="form-control" placeholder="" id="salary" name="salary">
+                                </div>
+                              </div>
+                            </div>
+                        
+                        
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="experience">Experience Required</label>
+                                  <input type="text" class="form-control" placeholder="" id="experience" name="experience">
+                                </div>
+                              </div>
+                        
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="eligibility">Eligibility</label>
+                                  <input type="text" class="form-control" id="elegibility" name="elegibility">
+                                </div>
+                              </div>
+                            </div>
+                        
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="date">Apply By</label>
+                                  <input type="date" class="form-control" id="date" name="date">
+                                </div>
+                              </div>
+                              <!--  col-md-6   -->
+                        
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="openingType">Type of Opening</label>
+                                  <select id="openingType " name="openingType" class="form-control">
+                                    <option value="technical">Technical Opening</option>
+                                    <option value="nontechnical">Non Technical Opening</option>
+                                  </select>
+                                </div>
+                        
+                              </div>
+                              <!--  col-md-6   -->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea rows="4" cols="50" name="description" class="form-control" id="description"></textarea>
+                                  </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <input type="hidden" id="formdata" name="formdata" value="">
+                                  </div>
+                                </div>
+                                
+                              </div>
+                              <button class="btn btn-primary" onclick="next1()">Next</button>
+                                
+                          </div>
+
+                          <div id="form2">
+                          </div>
+
+                          <div style = "display: none;" id="form4">
+                            <button class="btn btn-primary" onclick="prev1()">Prev</button>
+                            <button style="margin-left:20px;" onclick="addtext()" class="btn btn-primary">Add text field</button>
+                            <button style="margin-left:20px;" class="btn btn-primary">Add file upload field</button>
+                            <button type="submit" style="margin-left:20px;" class="btn btn-primary" id="submit">Submit</button>
+                          </div>
+                            
+                          </form>
+                        <div class="mb-4">
+                            
+                            
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script src="js/data.js"></script>
+        <script src="js/formscript.js"></script>
+        <script>
+          var data;
+          var dataBin=[];
+
+          function checkdone(parameter){
+            const name = parameter.split(',')[0];
+            const type = parameter.split(',')[1];
+            const id = event.target.id;
+            var element = document.getElementById(id);
+            if(element.checked){
+              var temp = {};
+              temp[name] = dataBin[name];
+              data = Object.assign(data,temp);
+              delete dataBin[name];
+              console.log(data);
+              console.log(dataBin);
+            }
+            else{
+              var temp = {};
+              temp[name] = data[name];
+              dataBin = Object.assign(dataBin,temp);
+              delete data[name];
+              console.log(data);
+              console.log(dataBin);
+            }
+
+            // console.log(data);
+          }
+
+          function next1(){
+            event.preventDefault();
+            document.getElementById("form1").style.display = "none";
+            document.getElementById("form2").style.display = "initial";
+            document.getElementById("form4").style.display = "initial";
+            if(document.getElementById("form2").innerHTML.length==27){
+              data = onPageLoad();
+              console.log(data);
+            }
+            
+            // document.getElementById("prev1").style.display = "initial";
+          }
+
+          function prev1(){
+            event.preventDefault();
+            document.getElementById("form1").style.display = "initial";
+            document.getElementById("form2").style.display = "none";
+            document.getElementById("form4").style.display = "none";
+          }
+
+          $("form").on('submit',function(event){
+            document.getElementById("formdata").value = JSON.stringify(data);
+          });
+
+        </script>
+        
+    </body>
+</html>

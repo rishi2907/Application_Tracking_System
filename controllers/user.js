@@ -2,47 +2,27 @@ const validator = require('validator');
 const passport = require('passport');
 const User = require('../models/User');
 var {getJobCard}= require('../routes/JobCard');
+const JobSchema = require('../models/JobSchema');
 
 
-//render_
+
 exports.clickButton1 = (req, res) => {
-
-  if(req.user){
-   res.render('index', {
-     name: req.user.name,
-     JobCard : getJobCard,
-     tag: 1
-   });
- 
-  }else{
-    console.log("2 called");
-   res.render('index', { 
-     name:"login_req",
-     JobCard : getJobCard,
-     tag: 1
-  });
- 
- }
- 
+  res.redirect('/');
 };
 
 
-//render_
-exports.clickButton2 = (req, res) => {
-
+exports.clickButton2 = async (req, res) => {
+  var data = await JobSchema.find({openingtype:"nontechnical", status:"open"});
   if(req.user){
    res.render('index', {
      name: req.user.name,
-     JobCard : getJobCard,
-     tag: 2
+     Jobdata: data,
    });
  
   }else{
-    console.log("2 called");
    res.render('index', { 
      name:"login_req",
-     JobCard : getJobCard,
-     tag: 2
+     Jobdata: data,
   });
  
  }

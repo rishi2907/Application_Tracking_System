@@ -1,14 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var adminController = require('../controllers/admin');
+const express = require('express');
+const router = express.Router();
+const adminController = require('../controllers/admin');
 
-// /* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
-
-
-
+router.post('/postjob', adminController.postJobForm);
+router.get('/postjob', adminController.getJobForm);
 router.get('/register', adminController.getSignup);
 router.get('/showChart', adminController.showChart);
 router.post('/register', adminController.postSignup);

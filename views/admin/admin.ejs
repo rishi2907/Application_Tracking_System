@@ -54,7 +54,7 @@
                             ></a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <!-- <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="layout-static.html">Static Navigation</a><a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a></nav> -->
-                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="#">Post a Job</a><a class="nav-link" href="#">Create Dynamic Form</a></nav>
+                                <nav class="sb-sidenav-menu-nested nav"><a class="nav-link" href="/admin/postjob">Post a Job</a><a class="nav-link" href="#">Create Dynamic Form</a></nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages"
                                 ><div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
@@ -100,6 +100,44 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
+                    <% if(messages.errors) {%>
+                        <div class="alert alert-danger fade show">
+                          <!-- <button class="close" type="button" data-dismiss="alert">
+                            <i class="fa-fa-circle">
+                            </i>
+                          </button> -->
+                          <% for(let error of messages.errors){%>
+                            <center><%=error.msg%></center>
+                            <%}%>
+                        </div>
+                        
+                      <%}%>
+                  
+                      <% if(messages.info) {%>
+                        <div class="alert alert-info fade show">
+                          <!-- <button class="close" type="button" data-dismiss="alert">
+                            <i class="fa-fa-circle">
+                            </i>
+                          </button> -->
+                          <% for(let info of messages.info){%>
+                            <center><%=info.msg%></center>
+                            <%}%>
+                        </div>
+                        
+                      <%}%>
+                  
+                      <% if(messages.success) {%>
+                        <div class="alert alert-success fade show">
+                          <!-- <button class="close" type="button" data-dismiss="alert">
+                            <i class="fa-fa-circle">
+                            </i>
+                          </button> -->
+                          <% for(let success of messages.success){%>
+                            <center><%=success.msg%></center>
+                            <%}%>
+                        </div>
+                        
+                      <%}%>
                     <div class="container-fluid">
                         <h1 class="mt-4">Dashboard</h1>
                         <ol class="breadcrumb mb-4">

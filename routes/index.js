@@ -1,22 +1,21 @@
 var express = require('express');
 var router = express.Router();
 var {getJobCard}= require('./JobCard');
+const JobSchema = require('../models/JobSchema');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/',async function(req, res, next) {
+ var data = await JobSchema.find({openingtype:"technical", status:"open"});
  if(req.user){
   res.render('index', {
     name: req.user.name,
-    JobCard : getJobCard,
-    tag: 1
+    Jobdata: data,
   });
 
  }else{
-   console.log("2 called");
   res.render('index', { 
     name: "login_req",
-    JobCard : getJobCard,
-    tag: 1
+    Jobdata: data,
  });
 
 }

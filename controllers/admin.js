@@ -1,7 +1,36 @@
 const validator = require('validator');
 const passport = require('passport');
 const Admin = require('../models/Admin');
+const JobSchema = require('../models/JobSchema');
 
+exports.postJobForm = async (req, res) => {
+  
+  var data = {
+    jobtitle: req.body.jobtitle,
+    salary: req.body.salary,
+    experience: req.body.experience,
+    eligibility: req.body.elegibility,
+    lastdate: req.body.date,
+    openingtype: req.body.openingType,
+    description: req.body.description,
+    formdata: req.body.formdata,
+    status: "open"
+  }
+
+  const dataObj = new JobSchema(data);
+  await dataObj.save();
+  req.flash('success', { msg: 'Job Successfully posted' });
+  res.redirect('/admin');
+
+};
+
+exports.getJobForm = (req, res) => {
+  if(req.user.usertype=="admin"){
+      res.render('admin/jobForm',{
+        name: req.user.name,
+        usertype: req.user.usertype });
+    };
+  };
 
 exports.showChart = (req, res) => {
     res.render('admin/showChart');
