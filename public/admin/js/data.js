@@ -11,32 +11,32 @@ let fieldName = [
         "selected":true
     },
     {
-        "field_name":"Upload Passport Size Photo",
+        "field_name":"Upload_Passport_Size_Photo",
         "field_type":"file",
         "selected":true
     },
     {
-        "field_name":"Correspondence Address",
+        "field_name":"Correspondence_Address",
         "field_type":"text",
         "selected":true
     },
     {
-        "field_name":"Permanent Address",
+        "field_name":"Permanent_Address",
         "field_type":"text",
         "selected":true
     },
     {
-        "field_name":"email",
+        "field_name":"Email",
         "field_type":"text",
         "selected":true
     },
     {
-        "field_name":"Contact Number",
+        "field_name":"Contact_Number",
         "field_type":"text",
         "selected":true
     },
     {
-        "field_name":"Date of birth",
+        "field_name":"Date_Of_Birth",
         "field_type":"text",
         "selected":true
     },

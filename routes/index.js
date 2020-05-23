@@ -6,7 +6,7 @@ const JobSchema = require("../models/JobSchema");
 /* GET home page. */
 router.get("/", async function (req, res, next) {
   var data = await JobSchema.find({ openingtype: "technical", status: "open" });
-  // console.log("RISHI::::::::::::::::::::::::::::::" + data);
+
   if (req.user) {
     res.render("index", {
       name: req.user.name,

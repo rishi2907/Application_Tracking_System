@@ -2,6 +2,70 @@ const validator = require('validator');
 const passport = require('passport');
 const Admin = require('../models/Admin');
 const JobSchema = require('../models/JobSchema');
+const JobData = require('../models/JobData');
+
+
+exports.showApplication = async (req, res) => {
+  if(req.user){
+    var jobID = req.params.jobID;  
+    var jobData  = await JobData.find({jobID: jobID, adminStatus: "Applied" });
+   
+    var result = [];
+
+    for(var i=0; i<jobData.length; i++){
+      var parsedData = JSON.parse(jobData[i].formData);
+
+      var objData = {
+        _id: jobData[i]._id,
+        jobID: jobData[i].jobID,
+        emailID: jobData[i].emailID,
+        formData: parsedData
+      }
+
+      result.push(objData);
+
+    }
+
+    console.log(result[0].formData.Name.value);
+   
+    res.render('admin/showApplication',
+    {
+      name: req.user.name,
+      usertype: req.user.usertype,
+      applicationData: result
+     });
+
+  }
+  else{
+      res.redirect('/admin/login');    
+ }
+
+};
+
+
+
+exports.showJob = async (req, res) => {
+  if(req.user){
+    var data = await JobSchema.find({
+      $or: [
+        { status: { $eq: 'open' } },
+        { status: { $eq: 'closed' } }
+      ]
+    });
+    console.log(data);
+    res.render('admin/showJob',
+    {
+      name: req.user.name,
+      usertype: req.user.usertype,
+      Jobdata: data
+     });
+  }
+  else{
+      res.redirect('/admin/login');    
+ }
+
+};
+
 
 exports.postJobForm = async (req, res) => {
   
