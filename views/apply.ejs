@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IIITDM JobPortal</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4DA5F4" />
+    <meta name="csrf-token" />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <link rel="stylesheet" href="/stylesheets/footer.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+</head>
+
+<body onload="onPageLoad()">
+
+    <% if(name=="login_req") {%>
+    <%- include('./partials/header1'); -%>
+    <% } %>
+
+    <% if(name!="login_req") {%>
+    <%- include('./partials/header2'); -%>
+    <% } %>
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+            </div>
+
+            <h3 hidden id="data"><%= result %></h3>
+            <form action="#" onsubmit="submitform()" id="application-form" class="col-8">
+            </form>
+        </div>
+    </div>
+
+    <%- include('./partials/footer'); -%>
+    <script>
+        // console.log(result)
+        let response = {};
+        let result;
+        let formdata;
+        function submitform() {
+            event.preventDefault();
+            response["jobid"] = result["_id"]
+            // console.log(response["jobid"]);
+            for (let property in formdata) {
+                let val = document.getElementById(property).value;
+                response[property] = {}
+                response[property]["value"] = val;
+                response[property]["type"] = formdata[property]["type"];
+                // console.log(val);
+            }
+            console.log(response);
+            postData('/apply/submitForm', result)
+                .then(data => {
+                    console.log(data);
+                    // JSON data parsed by `response.json()` call
+                });
+            window.location.href = "/apply/submit";
+
+        }
+        async function postData(url = '', data = {}) {
+            // Default options are marked with *
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return response.json(); // parses JSON response into native JavaScript objects
+        }
+
+        function onPageLoad() {
+            result = document.getElementById("data").innerHTML;
+            result = JSON.parse(result);
+            // console.log(result);
+            formdata = JSON.parse(result.formdata);
+            // console.log(formdata["name"])
+            let html = `<div class="form-check">`;
+
+            for (let property in formdata) {
+                // console.log(property)
+                if (formdata[property]["type"] == "text") {
+                    html += `<div class="row form-group mt-3 border" style="padding:15px;">`;
+                    html += `<div class="col-5"><label for="`;
+                    html += property;
+                    html += `">`;
+                    html += property;
+                    html += `</label></div>`;
+
+                    html += `<div class="col-6"><input type="text" required class="form-control" placeholder="" id="`;
+                    html += property;
+                    html += `"></div></div>`;
+                }
+                else if (formdata[property]["type"] == "file") {
+                    html += `<div class="row  mt-3 border" style="padding:15px;"><div class="col-5"><label for="`;
+                    html += property;
+                    html += `">`;
+                    html += property;
+                    html += `</label></div>`;
+                    html += `<div class="custom-file col-6"><input type="file" 
+                        class="custom-file-input" required id="`
+                    html += property;
+                    html += `"><label class="custom-file-label" for="validatedCustomFile">`;
+                    html += property;
+                    html += `</label>
+                        <div class="invalid-feedback">Example invalid custom file feedback</div>
+                        </div></div>`;
+                } else if (formdata[property]["type"] == "radio") {
+                    html += `<div class="row  mt-3 border" style="padding:15px;"><div class="col-5"><label for="`;
+                    html += property;
+                    html += `">`;
+                    html += property;
+                    html += `</label></div>`;
+                    html += `<div class="col-6"><select class="custom-select" id="`
+                    html += property
+                    html += `">`;
+
+                    for (let j = 0; j < formdata[property]["value"].length; j++) {
+                        html += `<option value="`;
+                        html += formdata[property]["value"][j];
+                        html += `">`;
+                        html += formdata[property]["value"][j];
+                        html += `</option>`;
+                    }
+
+                    html += `</select></div></div>`;
+                } else if (formdata[property]["type"] == "checkbox") {
+                }
+            }
+
+            html += `<center><button class="btn btn-primary" style="margin: 5px;" type="submit">Submit</button></center>`
+            let currentField = document.getElementById("application-form");
+
+            currentField.innerHTML = html;
+        }
+
+    </script>
+</body>
+
+</html>

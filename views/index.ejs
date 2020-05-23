@@ -1,66 +1,87 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>IIITDM JobPortal</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#4DA5F4" />
-    <meta name="csrf-token" />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/stylesheets/main.css" />
-    <link rel="stylesheet" href="/stylesheets/footer.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    
-  </head>
-  <body>
 
-  
-    <% if(name=="login_req") {%>
-      <%- include('./partials/header1'); -%>
-    <% } %>
+<head>
+  <title>IIITDM JobPortal</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#4DA5F4" />
+  <meta name="csrf-token" />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/stylesheets/main.css" />
+  <link rel="stylesheet" href="/stylesheets/footer.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    <% if(name!="login_req") {%>
-      <%- include('./partials/header2'); -%>
-    <% } %>
+</head>
 
-    <div class="outer">
-      <img src="https://www.iiitdmj.ac.in/img/slides/2.jpg" alt="iiitdm" height="600" width="100%"  />
-      <!-- <img src="/images/iiitdm.jpg" alt="iiitdm" height="600" width="100%"  /> -->
-      <form method="GET" action="/button1">
-        <button class="button1">Technical Openings</button>
-      </form>
+<body>
 
-      <form method="GET" action="/button2">
-        <button class="button2">Non Technical Openings</button>
-      </form>
-      <!-- <button class="button1">Technical Openings</button> -->
-      <!-- <button class="button2">NonTechnical Openings</button> -->
-    </div> 
 
-    <% for(var i=0; i< Jobdata.length ; i++) {%>
-      <div class="container">
-        <div class="card shadow p-3 mb-5 bg-white rounded">
-          <div class="card-body">
-          <div class="row">
-        <div class="col-8"><h3 class="card-title"><%= Jobdata[i].jobtitle %></h3></div>
-        <div class="col-4"><a href="/apply" class="btn btn-primary stretched-link float-right">Apply Now</a></div>
-      </div>
-      <div class="row">
-        <div class="col-4 font-italic"><h6>Experience Required : <%= Jobdata[i].experience %> </h6></div>
-        <div class="col-4 font-italic"><h6>Salary offer : <%= Jobdata[i].salary %> </h6></div>
-      </div>
-      <div class="row">
-        <div class="col-4 font-italic"><h6>Last date to apply : <%= Jobdata[i].lastdate %></h6></div>
-        <div class="col-4 font-italic"><h6>Eligibility : <%= Jobdata[i].eligibility %></h6></div>
-      </div>
-      <p> <%= Jobdata[i].description %></div></p> 
+  <% if(name=="login_req") {%>
+  <%- include('./partials/header1'); -%>
+  <% } %>
+
+  <% if(name!="login_req") {%>
+  <%- include('./partials/header2'); -%>
+  <% } %>
+
+  <div class="outer">
+    <img src="https://www.iiitdmj.ac.in/img/slides/2.jpg" alt="iiitdm" height="600" width="100%" />
+    <!-- <img src="/images/iiitdm.jpg" alt="iiitdm" height="600" width="100%"  /> -->
+    <form method="GET" action="/button1">
+      <button class="button1">Technical Openings</button>
+    </form>
+
+    <form method="GET" action="/button2">
+      <button class="button2">Non Technical Openings</button>
+    </form>
+    <!-- <button class="button1">Technical Openings</button> -->
+    <!-- <button class="button2">NonTechnical Openings</button> -->
+  </div>
+
+  <% for(var i=0; i< Jobdata.length ; i++) {%>
+  <div class="container">
+    <div class="card shadow p-3 mb-5 bg-white rounded">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-8">
+            <h3 class="card-title"><%= Jobdata[i].jobtitle %></h3>
+          </div>
+          <!-- <%= Jobdata[i]._id %> -->
+          <div class="col-4"><a href="/apply/jobId/<%= Jobdata[i]._id %>"
+              class="btn btn-primary stretched-link float-right">Apply Now</a>
           </div>
         </div>
-    <% } %>
-    
-     <%- include('./partials/footer'); -%> 
-  </body>
+        <div class="row">
+          <div class="col-4 font-italic">
+            <h6>Experience Required : <%= Jobdata[i].experience %> </h6>
+          </div>
+          <div class=" col-4 font-italic">
+            <h6>Salary offer : <%= Jobdata[i].salary %> </h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4 font-italic">
+            <h6>Last date to apply : <%= Jobdata[i].lastdate %></h6>
+          </div>
+          <div class="col-4 font-italic">
+            <h6>Eligibility : <%= Jobdata[i].eligibility %></h6>
+          </div>
+        </div>
+        <p> <%= Jobdata[i].description %>
+      </div>
+      </p>
+    </div>
+  </div>
+  <% } %>
+
+  <%- include('./partials/footer'); -%>
+</body>
+
 </html>
