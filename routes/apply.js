@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
-const JobSchema = require("../models/JobSchema");
-
+// const JobSchema = require("../models/JobSchema");
+const JobDataSchema = require("../models/JobData");
 /* GET home page. */
 router.get("/jobId/:jobId", async function (req, res, next) {
   console.log("RISHI:::::::::::::::::::::::::::::" + req.params.jobId);
@@ -24,21 +24,22 @@ router.get("/jobId/:jobId", async function (req, res, next) {
 });
 
 router.post("/submitForm", async function (req, res, next) {
-  console.log("RISHI:::::::::::::::::::::::::::::");
   console.log(req);
-  // let result;
-  // result = await JobSchema.findById(req.params.jobId).then((result) => {
-  //   return result;
-  // });
-  // console.log("testing rishi::::::::::::::::" + result);
-  res.json({ username: "Flavio" });
-  // req.flash("success", { msg: "Job Successfully posted" });
-  // res.redirect("/admin");
 
-  // if (req.user) {
-  //   res.json({ username: "Flavio" });
-  // }
+  let data = {
+    jobID: req.body.jobid,
+    emailID: req.user.email,
+    formData: req.body,
+    status: "applied",
+    adminStatus: "applied",
+  };
+
+  const dataObj = new JobDataSchema(data);
+  dataObj.save();
+
+  res.json({ username: req.user.email });
 });
+
 router.get("/submit", async function (req, res, next) {
   req.flash("success", { msg: "Your Application submitted Successfully" });
   res.redirect("/");

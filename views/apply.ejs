@@ -58,7 +58,7 @@
                 // console.log(val);
             }
             console.log(response);
-            postData('/apply/submitForm', result)
+            postData('/apply/submitForm', response)
                 .then(data => {
                     console.log(data);
                     // JSON data parsed by `response.json()` call
