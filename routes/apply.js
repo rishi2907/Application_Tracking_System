@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-// const JobSchema = require("../models/JobSchema");
+const JobSchema = require("../models/JobSchema");
 const JobDataSchema = require("../models/JobData");
 /* GET home page. */
 router.get("/jobId/:jobId", async function (req, res, next) {
