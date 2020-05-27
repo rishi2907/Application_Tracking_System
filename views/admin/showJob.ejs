@@ -51,6 +51,7 @@
                             <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                             <li class="breadcrumb-item active">Posted Jobs</li>
                         </ol>
+                        <h3 class="mt-4">Currently Opened Jobs</h3>
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -63,10 +64,12 @@
                                                 <th>Last Date to Apply</th>
                                                 <th>Opening Type</th>
                                                 <th>Applications Section</th>
+                                                <th>Selected Candidates</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <% for(var i=0; i< Jobdata.length ; i++) {%>
+                                                <% if (Jobdata[i].status != "resultOut") { %>
                                                 <tr>
                                                     <td><%=Jobdata[i].jobtitle %></td>
                                                     <td><%=Jobdata[i].salary %></td>
@@ -74,7 +77,46 @@
                                                     <td><%=Jobdata[i].lastdate %></td>
                                                     <td><%=Jobdata[i].openingtype %></td>
                                                     <td><a href="/admin/pending/<%= Jobdata[i]._id%>">Open</a></td>
+                                                    <td><a href="/admin/selected/<%= Jobdata[i]._id%>">View</a></td>
                                                 </tr>
+                                                <% } %>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <h3 class="mt-4">Closed Jobs</h3>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered show"  width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Job Title</th>
+                                                <th>Salary Offered</th>
+                                                <th>Experience Required</th>
+                                                <th>Last Date to Apply</th>
+                                                <th>Opening Type</th>
+                                                <th>Selected Candidates</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for(var i=0; i< Jobdata.length ; i++) {%>
+                                                <% if (Jobdata[i].status == "resultOut") { %>
+                                                <tr>
+                                                    <td><%=Jobdata[i].jobtitle %></td>
+                                                    <td><%=Jobdata[i].salary %></td>
+                                                    <td><%=Jobdata[i].experience %></td>
+                                                    <td><%=Jobdata[i].lastdate %></td>
+                                                    <td><%=Jobdata[i].openingtype %></td>
+                                                    <td><a href="/admin/selected/<%= Jobdata[i]._id%>">View</a></td>
+                                                </tr>
+                                                <% } %>
                                             <% } %>
                                         </tbody>
                                     </table>
@@ -91,7 +133,6 @@
 
                         <!-- <div class="testing">
                             <div>
-                                <button class="but">SHOW / HIDE</button>
                                 <div class="card mb-4 show1" style="display: none;">
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -103,22 +144,23 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <tr>
-                                                            <td>kjnnfvklfv</td>
-                                                            <td>bkjvkjfnkjfv</td>
-                                                        </tr>
-                                                    
+                                                    <tr>
+                                                        <td>kjnnfvklfv</td>
+                                                        <td>bkjvkjfnkjfv</td>
+                                                    </tr>
+                                                                        
                                                 </tbody>
                                             </table>
-        
-                                            
+                            
+                                                                
                                         </div>
-                                    </div>
-        
-                                </div>   
+                                    </div>                                    
 
+                            
+                                </div>  
+                                
                             </div>
-                        </div> -->
+                        </div>  -->
 
 
                     </div>
@@ -128,27 +170,14 @@
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/script.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="/assets/demo/chart-area-demo.js"></script>
-        <script src="/assets/demo/chart-bar-demo.js"></script>
+        <script src="/admin/js/script.js"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
         <script src="/assets/demo/datatables-demo.js"></script>
         <script>
-                    $(".but").click (function(){
-        // Close all open windows
-        $(".show1").stop().slideUp(300); 
-        // Toggle this window open/close
-        $(this).next(".show1").stop().slideToggle(300);
-        //hitter test// 
-        
-        });
-
-
           $(document).ready(function() {
-    $('.show').DataTable();
-  });
+            $('.show').DataTable();
+          });
         </script>
     </body>
 </html>

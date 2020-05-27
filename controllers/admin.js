@@ -5,12 +5,117 @@ const JobSchema = require('../models/JobSchema');
 const JobData = require('../models/JobData');
 
 
+
+exports.selectedApplication = async (req, res) => {
+  if(req.user){
+    var jobID = req.params.jobID;  
+    var jobData  = await JobData.find({jobID: jobID, adminStatus: "Accepted" });
+    var result = [];
+    console.log(jobData);
+   
+    for(var i=0; i<jobData.length; i++){
+      var parsedData = JSON.parse(jobData[i].formData);
+
+      var objData = {
+        _id: jobData[i]._id,
+        jobID: jobData[i].jobID,
+        emailID: jobData[i].emailID,
+        formData: parsedData
+      }
+
+      result.push(objData);
+
+    }
+   
+    res.render('admin/selectedApplication',
+    {
+      name: req.user.name,
+      usertype: req.user.usertype,
+      jobID: jobID,
+      applicationData: result
+      // totalApplications: totalApplications,
+      // pendingApplications: totalApplications-acceptedApplications-rejectedApplications,
+      // acceptedApplications: acceptedApplications,
+      // rejectedApplications: rejectedApplications
+     });
+
+  }
+  else{
+      res.redirect('/admin/login');    
+ }
+
+};
+
+
+exports.declareResult = async (req, res) => {
+  if(req.user){
+    var jobID = req.params.jobID;  
+    var jobData  = await JobData.find({jobID: jobID});
+
+    for(var i=0; i<jobData.length; i++){
+      jobData[i].status=jobData[i].adminStatus;
+      jobData[i].save();
+    }
+
+    var jobSchema = await JobSchema.findOne({_id: jobID});
+    jobSchema.status="resultOut";
+    jobSchema.save();
+
+    req.flash('success', { msg: 'Result Declared' });
+
+    res.redirect('/admin');
+
+  }
+  else{
+      res.redirect('/admin/login');    
+ }
+
+};
+
+
+exports.acceptApplication = async (req, res) => {
+  if(req.user){
+    var appID = req.params.appID;  
+    var userData  = await JobData.findOne({_id: appID });
+    userData.adminStatus = "Accepted";
+    userData.save();
+    res.redirect('/admin/pending/' + userData.jobID);
+
+  }
+  else{
+      res.redirect('/admin/login');    
+ }
+
+};
+
+
+exports.rejectApplication = async (req, res) => {
+  if(req.user){
+    var appID = req.params.appID;  
+    var userData  = await JobData.findOne({_id: appID });
+    userData.adminStatus = "Rejected";
+    userData.save();
+    res.redirect('/admin/pending/' + userData.jobID);
+
+  }
+  else{
+      res.redirect('/admin/login');    
+ }
+
+};
+
 exports.showApplication = async (req, res) => {
   if(req.user){
     var jobID = req.params.jobID;  
     var jobData  = await JobData.find({jobID: jobID, adminStatus: "Applied" });
    
     var result = [];
+    var totalApplications = await JobData.count({jobID: jobID});
+    var acceptedApplications = await JobData.count({jobID: jobID, adminStatus: "Accepted"});
+    var rejectedApplications = await JobData.count({jobID: jobID, adminStatus: "Rejected"});
+    console.log(totalApplications);
+    
+
 
     for(var i=0; i<jobData.length; i++){
       var parsedData = JSON.parse(jobData[i].formData);
@@ -25,14 +130,17 @@ exports.showApplication = async (req, res) => {
       result.push(objData);
 
     }
-
-    console.log(result[0].formData.Name.value);
    
     res.render('admin/showApplication',
     {
       name: req.user.name,
       usertype: req.user.usertype,
-      applicationData: result
+      jobID: jobID,
+      applicationData: result,
+      totalApplications: totalApplications,
+      pendingApplications: totalApplications-acceptedApplications-rejectedApplications,
+      acceptedApplications: acceptedApplications,
+      rejectedApplications: rejectedApplications
      });
 
   }
@@ -46,13 +154,13 @@ exports.showApplication = async (req, res) => {
 
 exports.showJob = async (req, res) => {
   if(req.user){
-    var data = await JobSchema.find({
-      $or: [
-        { status: { $eq: 'open' } },
-        { status: { $eq: 'closed' } }
-      ]
-    });
-    console.log(data);
+    // var data = await JobSchema.find({
+    //   $or: [
+    //     { status: { $eq: 'open' } },
+    //     { status: { $eq: 'closed' } }
+    //   ]
+    // });
+    var data = await JobSchema.find();  
     res.render('admin/showJob',
     {
       name: req.user.name,

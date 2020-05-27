@@ -63,48 +63,9 @@
                         <ol class="breadcrumb mb-4">
                           <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
                           <li class="breadcrumb-item"><a href="/admin/showJobs/pending">Posted Jobs</a></li>
-                          <li class="breadcrumb-item active">Applications</li>
+                          <li class="breadcrumb-item active">Selected Applications</li>
                         </ol>
 
-                        <div class="row">
-                          <div class="col-xl-3 col-md-6">
-                              <div class="card bg-primary text-white mb-4">
-                                  <div class="card-body">Total Applications</div>
-                                  <div class="card-footer d-flex align-items-center justify-content-between">
-                                      <div class="large text-white ">Count</div>
-                                      <div class="large text-white "><i><%= totalApplications%></i></div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="col-xl-3 col-md-6">
-                              <div class="card bg-warning text-white mb-4">
-                                  <div class="card-body">Pending Applications</div>
-                                  <div class="card-footer d-flex align-items-center justify-content-between">
-                                      <div class="large text-white ">Count</div>
-                                      <div class="large text-white "><i><%= pendingApplications%></i></div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="col-xl-3 col-md-6">
-                            <div class="card bg-success text-white mb-4">
-                                <div class="card-body">Accepted Applications</div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <div class="large text-white ">Count</div>
-                                    <div class="large text-white "><i><%= acceptedApplications%></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                          <div class="card bg-danger text-white mb-4">
-                              <div class="card-body">Rejected Applications</div>
-                              <div class="card-footer d-flex align-items-center justify-content-between">
-                                  <div class="large text-white ">Count</div>
-                                  <div class="large text-white "><i><%= rejectedApplications%></i></div>
-                              </div>
-                          </div>
-                      </div>
-
-                      </div>
 
                         <% for(var i=0; i < applicationData.length ; i++) { %>
                             <div class="container">
@@ -146,11 +107,8 @@
                                                                         
                                                 </tbody>
                                             </table>
-                                            <% if (usertype == "admin") { %>
-                                            <a href="/admin/accept/<%= applicationData[i]._id %>" class="btn btn-success ">Accept</a>
-                                            <a href="/admin/reject/<%= applicationData[i]._id %>" class="btn btn-danger ">Reject</a>
-                                            <% } %>
-                            
+
+                           
                                                         
                                 </div>
                               </div>
@@ -165,9 +123,7 @@
                                                             
                             <!-- </div>
                         </div> -->
-                        <% if (usertype == "admin") { %>
-                        <center><a href="/admin/declareResult/<%= jobID %>" class="btn btn-primary ">Declare Result</a></center>
-                        <%}%>
+
                     </div>
                 </main>
                 <br>
