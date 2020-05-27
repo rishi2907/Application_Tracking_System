@@ -130,7 +130,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <% for(var key in applicationData[i].formData ) { %>
-                                                        <% if (applicationData[i].formData[key].type == "text" ) { %>
+                                                        <% if (applicationData[i].formData[key].type == "text" || applicationData[i].formData[key].type == "radio" ) { %>
                                                             <tr>
                                                                 <td><%= key %></td>
                                                                 <td><%= applicationData[i].formData[key].value %></td>

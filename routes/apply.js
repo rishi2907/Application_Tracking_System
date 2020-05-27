@@ -4,22 +4,26 @@ const JobSchema = require("../models/JobSchema");
 const JobDataSchema = require("../models/JobData");
 /* GET home page. */
 router.get("/jobId/:jobId", async function (req, res, next) {
-  console.log("RISHI:::::::::::::::::::::::::::::" + req.params.jobId);
   let result;
+  console.log(req.user);
   result = await JobSchema.findById(req.params.jobId).then((result) => {
     return result;
   });
   console.log("testing rishi::::::::::::::::" + result);
   if (req.user) {
+    let applyCheck = await JobDataSchema.findOne({emailID: req.user.email, jobID:req.params.jobId});
+    if(applyCheck){
+      req.flash('errors', { msg: 'You have already applied for this application' });
+      return res.redirect('/');
+    }
     res.render("apply", {
       name: req.user.name,
       result: JSON.stringify(result),
       formdata: JSON.parse(result.formdata),
     });
   } else {
-    res.render("index", {
-      name: "login_req",
-    });
+    req.flash('errors', { msg: 'Login Required' });
+    res.redirect('/');
   }
 });
 
