@@ -26,15 +26,19 @@ router.get("/jobId/:jobId", async function (req, res, next) {
 router.post("/submitForm", async function (req, res, next) {
   console.log(req);
 
+  let jobId = req.body.jobid;
+  let applicationdata = req.body;
+  delete applicationdata["jobid"];
+
   let data = {
-    jobID: req.body.jobid,
+    jobID: jobId,
     emailID: req.user.email,
-    formData: req.body,
-    status: "applied",
-    adminStatus: "applied",
+    formData: JSON.stringify(applicationdata),
+    status: "Applied",
+    adminStatus: "Applied",
   };
 
-  const dataObj = new JobDataSchema(data);
+  let dataObj = new JobDataSchema(data);
   dataObj.save();
 
   res.json({ username: req.user.email });
