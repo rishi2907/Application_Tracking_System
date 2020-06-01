@@ -104,10 +104,33 @@
                           <div id="form2">
                           </div>
 
+                          <div id="form6">
+                          </div>
+
+                          <div id="form3" style="display: none;">
+                            <label>Enter Field Name</label>
+                            <input  id="textField" name="textField" value="">
+                            <button class="btn btn-primary" onclick="removeText()">Cancel</button>
+                            <button class="btn btn-primary" onclick="insertText()">Insert</button>
+
+                            <br/><br/>
+
+                          </div>
+
+                          <div id="form5" style="display: none;">
+                            <label>Enter Field Name</label>
+                            <input  id="textField1" name="textField1" value="">
+                            <button class="btn btn-primary" onclick="removeFile()">Cancel</button>
+                            <button class="btn btn-primary" onclick="insertFile()">Insert</button>
+
+                            <br/><br/>
+
+                          </div>
+
                           <div style = "display: none;" id="form4">
                             <button class="btn btn-primary" onclick="prev1()">Prev</button>
                             <button style="margin-left:20px;" onclick="addtext()" class="btn btn-primary">Add text field</button>
-                            <button style="margin-left:20px;" class="btn btn-primary">Add file upload field</button>
+                            <button style="margin-left:20px;" class="btn btn-primary" onclick="addfile()">Add file upload field</button>
                             <button type="submit" style="margin-left:20px;" class="btn btn-primary" id="submit">Submit</button>
                           </div>
                             
@@ -154,11 +177,64 @@
             // console.log(data);
           }
 
+
+          function addfile(){
+            event.preventDefault();
+            document.getElementById("form5").style.display = "initial";
+          }
+
+          function removeFile(){
+            event.preventDefault();
+            document.getElementById("textField1").value = "";
+            document.getElementById("form5").style.display = "none";
+          }
+
+          function insertFile(){
+            event.preventDefault();
+            var value = document.getElementById("textField1").value;
+            value = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
+            console.log(value);
+            var type="file";
+            var html=``;
+            html += `<div class="col-1">
+            <input type="checkbox" onclick="checkdone('`+value + ',' + type + `')" class="form-check-input"  id=` + value + ` value="" checked></div><div class="col-5"><label for="`;
+            html += value;
+            html += `">`;
+            html += value;
+            html += `</label></div>`;
+            html += `<div class="custom-file col-6"><input type="file" 
+                    class="custom-file-input" id="validatedCustomFile" >
+                    <label class="custom-file-label" for="validatedCustomFile">`;
+            html += value;
+            html += `</label>
+                    <div class="invalid-feedback">Example invalid custom file feedback</div>
+                    </div>`;  
+                  
+
+            // document.getElementById("form6").innerHTML = document.getElementById("form6").innerHTML + html;
+            var di = document.createElement("div");
+            di.classList.add("row");
+            di.classList.add("mt-3");
+            di.innerHTML=html;
+            // document.getElementById("form6").innerHTML = document.getElementById("form6").innerHTML + html;
+            document.getElementById("form6").appendChild(di);
+            document.getElementById("textField1").value = "";
+            document.getElementById("form5").style.display = "none";
+
+            var temp ={};
+            temp[value]={type: "file"};
+            data = Object.assign(data,temp);
+
+
+          }
+
           function next1(){
             event.preventDefault();
             document.getElementById("form1").style.display = "none";
             document.getElementById("form2").style.display = "initial";
+            document.getElementById("form6").style.display = "initial";
             document.getElementById("form4").style.display = "initial";
+            // document.getElementById("form3").style.display = "none";
             if(document.getElementById("form2").innerHTML.length==27){
               data = onPageLoad();
               console.log(data);
@@ -172,7 +248,58 @@
             document.getElementById("form1").style.display = "initial";
             document.getElementById("form2").style.display = "none";
             document.getElementById("form4").style.display = "none";
+            document.getElementById("form3").style.display = "none";
+            document.getElementById("form5").style.display = "none";
+            document.getElementById("form6").style.display = "none";
           }
+
+          function addtext(){
+            event.preventDefault();
+            document.getElementById("form3").style.display = "initial";
+          }
+
+          function removeText(){
+            event.preventDefault();
+            document.getElementById("textField").value = "";
+            document.getElementById("form3").style.display = "none";
+          }
+
+          function insertText(){
+            event.preventDefault();
+            var value = document.getElementById("textField").value;
+            value = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
+            console.log(value);
+            var type="text";
+            var html=``;
+            html += `<div class="col-1">
+                    <input type="checkbox" onclick="checkdone('`+value + ',' + type + `')" class="form-check-input" id=` + value + ` value="" checked></div>`;
+            html += `<div class="col-5"><label for="`;
+            html += value;
+            html += `">`;
+            html += value;
+            html += `</label></div>`;
+
+            html += `<div class="col-6"><input type="text" class="form-control" placeholder="" id="`;
+            html += value;
+            html += `"></div></div>`;
+
+            var di = document.createElement("div");
+            di.classList.add("row");
+            di.classList.add("form-group");
+            di.classList.add("mt-3");
+            di.innerHTML=html;
+            // document.getElementById("form6").innerHTML = document.getElementById("form6").innerHTML + html;
+            document.getElementById("form6").appendChild(di);
+            document.getElementById("textField").value = "";
+            document.getElementById("form3").style.display = "none";
+
+            var temp ={};
+            temp[value]={type: "text"};
+            data = Object.assign(data,temp);
+
+
+          }
+
 
           $("form").on('submit',function(event){
             document.getElementById("formdata").value = JSON.stringify(data);
