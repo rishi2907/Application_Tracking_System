@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>IIITDM JobPortal</title>
+  <meta charset="utf-8" />
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#4DA5F4" />
+  <meta name="csrf-token" />
+  <link href="/admin/css/style.css" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="stylesheet" href="/stylesheets/main.css" />
+  <link rel="stylesheet" href="/stylesheets/footer.css" />
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+</head>
+
+<body style="background-color: white;">
+
+
+  <% if(name=="login_req") {%>
+  <%- include('./partials/header1'); -%>
+  <% } %>
+
+  <% if(name!="login_req") {%>
+  <%- include('./partials/header2'); -%>
+  <% } %>
+
+  <% if(messages.errors) {%>
+    <div class="alert alert-danger fade show">
+      <!-- <button class="close" type="button" data-dismiss="alert">
+        <i class="fa-fa-circle">
+        </i>
+      </button> -->
+      <% for(let error of messages.errors){%>
+        <center><%=error.msg%></center>
+        <%}%>
+    </div>
+    
+  <%}%>
+
+  <% if(messages.info) {%>
+    <div class="alert alert-info fade show">
+      <!-- <button class="close" type="button" data-dismiss="alert">
+        <i class="fa-fa-circle">
+        </i>
+      </button> -->
+      <% for(let info of messages.info){%>
+        <center><%=info.msg%></center>
+        <%}%>
+    </div>
+    
+  <%}%>
+
+  <% if(messages.success) {%>
+    <div class="alert alert-success fade show">
+      <!-- <button class="close" type="button" data-dismiss="alert">
+        <i class="fa-fa-circle">
+        </i>
+      </button> -->
+      <% for(let success of messages.success){%>
+        <center><%=success.msg%></center>
+        <%}%>
+    </div>
+    
+  <%}%>
+
+  <div class="card mb-4" style="margin-left: 25px; margin-top: 25px; margin-right: 25px;">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Salary Offered</th>
+                        <th>Experience Required</th>
+                        <th>Eligibility</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i< applicationData.length ; i++) {%>
+                        <tr>
+                            <td><%=applicationData[i].jobtitle %></td>
+                            <td><%=applicationData[i].salary %></td>
+                            <td><%=applicationData[i].experience %></td>
+                            <td><%=applicationData[i].eligibility %></td>
+                            <td><%=applicationData[i].status %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+
+  <%- include('./partials/footer'); -%>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+  <script src="/assets/demo/datatables-demo.js"></script>
+</body>
+
+</html>

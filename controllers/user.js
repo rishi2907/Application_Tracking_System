@@ -3,8 +3,37 @@ const passport = require('passport');
 const User = require('../models/User');
 var {getJobCard}= require('../routes/JobCard');
 const JobSchema = require('../models/JobSchema');
+const JobData = require('../models/JobData');
 
 
+
+exports.appliedApplications = async (req, res) => {
+  if(req.user){
+    var statusData = await JobData.find({emailID: req.user.email});
+    var result = [];
+    for(var i=0; i<statusData.length; i++){
+      var temp = await JobSchema.findOne({_id: statusData[i].jobID});
+      result.push({
+        jobtitle: temp.jobtitle,
+        salary: temp.salary,
+        experience: temp.experience,
+        eligibility: temp.eligibility,
+        status:statusData[i].status});
+    }
+
+    console.log(result);
+    
+   res.render('applicationSection', {
+     name: req.user.name,
+     applicationData: result 
+   });
+ 
+  }else{
+   res.redirect('/');
+ 
+ }
+ 
+};
 
 exports.clickButton1 = (req, res) => {
   res.redirect('/');
