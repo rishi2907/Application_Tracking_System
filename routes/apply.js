@@ -70,7 +70,7 @@ router.post("/submitForm", upload.fields(fieldName), async function (
   res,
   next
 ) {
-  console.log(req);
+  console.log(req.files);
   let applicationdata = {};
   for (field in req.body) {
     // names.split(",");
@@ -85,7 +85,7 @@ router.post("/submitForm", upload.fields(fieldName), async function (
   for (files in fieldName) {
     // names.split(",");
     console.log(files);
-    value = req.files[fieldName[files].name][0].path;
+    value = req.files[fieldName[files].name][0].filename;
     let arr = fieldName[files].name;
     let obj = { type: "file", value: value };
     applicationdata[arr] = obj;
