@@ -22,6 +22,8 @@
 
 <body onload="onPageLoad()">
 
+    <!-- <body> -->
+
     <% if(name=="login_req") {%>
     <%- include('./partials/header1'); -%>
     <% } %>
@@ -35,7 +37,9 @@
             </div>
 
             <h3 hidden id="data"><%= result %></h3>
-            <form action="#" onsubmit="submitform()" id="application-form" class="col-8">
+            <!-- <form action="#" onsubmit="submitform()" id="application-form" class="col-8"> -->
+            <form method="POST" action="/apply/submitForm" id="application-form" class="col-8"
+                enctype="multipart/form-data">
             </form>
         </div>
     </div>
@@ -90,7 +94,9 @@
             // console.log(result);
             formdata = JSON.parse(result.formdata);
             // console.log(formdata["name"])
-            let html = `<div class="form-check">`;
+            let html = `<div class="form-check"><input type="hidden" name="jobid" value="`
+            html += result["_id"];
+            html += `">`;
 
             for (let property in formdata) {
                 // console.log(property)
@@ -102,7 +108,9 @@
                     html += property;
                     html += `</label></div>`;
 
-                    html += `<div class="col-6"><input type="text" required class="form-control" placeholder="" id="`;
+                    html += `<div class="col-6"><input type="text" required class="form-control" name="`;
+                    html += property + "$" + formdata[property]["type"];
+                    html += `" placeholder="" id="`;
                     html += property;
                     html += `"></div></div>`;
                 }
@@ -113,7 +121,9 @@
                     html += property;
                     html += `</label></div>`;
                     html += `<div class="custom-file col-6"><input type="file" 
-                        class="custom-file-input" required id="`
+                        class="custom-file-input" required name="`;
+                    html += property;
+                    html += `" placeholder="" id="`;
                     html += property;
                     html += `"><label class="custom-file-label" for="validatedCustomFile">`;
                     html += property;
@@ -126,7 +136,9 @@
                     html += `">`;
                     html += property;
                     html += `</label></div>`;
-                    html += `<div class="col-6"><select class="custom-select" id="`
+                    html += `<div class="col-6"><select class="custom-select" name="`;
+                    html += property + "$" + formdata[property]["type"];
+                    html += `" placeholder="" id="`;
                     html += property
                     html += `">`;
 

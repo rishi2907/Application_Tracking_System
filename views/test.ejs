@@ -5,17 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="js/test.js">
+    <!-- <script src="js/test.js"> -->
     </script>
 </head>
 
-<body onload="onpageload()">
-    <h1> testing </h1>
-    <form>
-        <input type="text" name="name" required>
-        <button type="submit">submit</button>
+<body>
+    <form method="POST" enctype="multipart/form-data" action="multer/upload-profile-pic">
+        <input name="name" value="rishi" id="rajat" />
+        <div>
+            <label>Select your profile picture:</label>
+            <input type="file" name="profile_pic" />
+        </div>
+        <div>
+            <input type="submit" name="btn_upload_profile_pic" value="Upload" />
+        </div>
     </form>
-    <h1><%= result  %></h1>
+
 
 </body>
 
