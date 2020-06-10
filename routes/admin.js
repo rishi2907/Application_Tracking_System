@@ -18,6 +18,8 @@ router.get('/showChart', adminController.showChart);
 router.post('/register', adminController.postSignup);
 router.get('/login', adminController.getLogin);
 router.post('/login', adminController.postLogin);
+router.get('/download/:jobID', adminController.download);
+router.get('/selectedDownload/:jobID', adminController.selectedDownload);
 router.get('/',async function(req, res, next) {
   if(req.user){
     // var data = await JobSchema.find({status:"open"});

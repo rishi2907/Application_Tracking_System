@@ -76,8 +76,8 @@
                                                     <td><%=Jobdata[i].experience %></td>
                                                     <td><%=Jobdata[i].lastdate %></td>
                                                     <td><%=Jobdata[i].openingtype %></td>
-                                                    <td><a href="/admin/pending/<%= Jobdata[i]._id%>">Open</a></td>
-                                                    <td><a href="/admin/selected/<%= Jobdata[i]._id%>">View</a></td>
+                                                    <td><a href="/admin/pending/<%= Jobdata[i]._id%>">Open</a>/<a href="/admin/download/<%= Jobdata[i]._id%>">Download</a></td>
+                                                    <td><a href="/admin/selected/<%= Jobdata[i]._id%>">View</a>/<a href="/admin/selectedDownload/<%= Jobdata[i]._id%>">Download</a></td>
                                                 </tr>
                                                 <% } %>
                                             <% } %>
@@ -114,7 +114,7 @@
                                                     <td><%=Jobdata[i].experience %></td>
                                                     <td><%=Jobdata[i].lastdate %></td>
                                                     <td><%=Jobdata[i].openingtype %></td>
-                                                    <td><a href="/admin/selected/<%= Jobdata[i]._id%>">View</a></td>
+                                                    <td><a href="/admin/selected/<%= Jobdata[i]._id%>">View</a>/<a href="/admin/selectedDownload/<%= Jobdata[i]._id%>">Download</a></td>
                                                 </tr>
                                                 <% } %>
                                             <% } %>
