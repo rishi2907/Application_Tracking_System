@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const multer = require("multer");
 const flash = require("express-flash");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
@@ -10,6 +11,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var adminRouter = require("./routes/admin");
 let applyRouter = require("./routes/apply");
+let multerRouter = require("./routes/multer");
 var userController = require("./controllers/user");
 const passport = require("passport");
 const mongoose = require("mongoose");
@@ -23,6 +25,34 @@ mongoose.connect(url, function (err, db) {
   if (err) throw err;
   console.log("Database created!");
 });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, process.cwd() + "/public/attachments/");
+  },
+
+  // By default, multer removes file extensions so let's add them back
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+let upload = multer({
+  storage: storage,
+  // fileFilter: imageFilter,
+});
+
+const imageFilter = function (req, file, cb) {
+  // Accept images only
+  if (!file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$/)) {
+    req.fileValidationError = "Only image files are allowed!";
+    return cb(new Error("Only image files are allowed!"), false);
+  }
+  cb(null, true);
+};
 
 var app = express();
 // view engine setup
@@ -69,9 +99,50 @@ app.post("/signup", userController.postSignup);
 app.get("/logout", userController.logoutDone);
 // app.get('/apply',userController.applyNow);
 // TODO rishi
+app.get("/multer", async function (req, res, next) {
+  res.render("test");
+});
+
+app.post(
+  "/multer/upload-profile-pic",
+  upload.single("profile_pic"),
+  (req, res) => {
+    console.log(Object.keys(req.body));
+    console.log("----------------------------------------------------------");
+    console.log(req.file);
+    // 'profile_pic' is the name of our file input field in the HTML form
+
+    //   console.log(req);
+    // upload(req, res, function (err) {
+    //   // req.file contains information of uploaded file
+    //   // req.body contains information of text fields, if there were any
+
+    //   if (req.fileValidationError) {
+    //     return res.send(req.fileValidationError);
+    //   } else if (!req.file) {
+    //     return res.send("Please select an image to upload");
+    //   } else if (err instanceof multer.MulterError) {
+    //     return res.send(err);
+    //   } else if (err) {
+    //     return res.send(err);
+    //   }
+
+    //   // Display uploaded image for user validation
+    //   res.send(
+    //     `You have uploaded this image: <hr/><img src="${req.file.path}" width="500"><hr /><a href="./">Upload another image</a>`
+    //   );
+    // });
+    res.send(
+      `You have uploaded this image: <hr/><img src="${
+        "/attachments/" + req.file.filename
+      }" width="500"><hr /><a href="./">Upload another image</a>`
+    );
+  }
+);
 
 app.get("/button1", userController.clickButton1);
 app.get("/button2", userController.clickButton2);
+
 app.use("/", indexRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
