@@ -24,7 +24,7 @@ let upload = multer({
   // fileFilter: imageFilter,
 });
 
-let fieldName = [{ name: "Upload Passport Size Photo" }];
+let fieldName = [{ name: "Upload_Passport_Size_Photo" }];
 
 /* GET home page. */
 router.get("/jobId/:jobId", async function (req, res, next) {
@@ -65,7 +65,13 @@ router.get("/jobId/:jobId", async function (req, res, next) {
   }
 });
 
-router.post("/submitForm", upload.fields(fieldName), async function (
+uploadFile = function (fieldName) {
+  console.log("8888888888888888888888888888888888888888888888888");
+  console.log(upload.fields(fieldName));
+  return upload.fields(fieldName)
+}
+
+router.post("/submitForm", uploadFile(fieldName), async function (
   req,
   res,
   next

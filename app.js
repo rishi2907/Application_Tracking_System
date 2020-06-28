@@ -7,6 +7,8 @@ const multer = require("multer");
 const flash = require("express-flash");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
+const fileUpload = require('express-fileupload');
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var adminRouter = require("./routes/admin");
@@ -56,6 +58,7 @@ const imageFilter = function (req, file, cb) {
 };
 
 var app = express();
+app.use(fileUpload());
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -135,7 +138,7 @@ app.post(
     // });
     res.send(
       `You have uploaded this image: <hr/><img src="${
-        "/attachments/" + req.file.filename
+      "/attachments/" + req.file.filename
       }" width="500"><hr /><a href="./">Upload another image</a>`
     );
   }
