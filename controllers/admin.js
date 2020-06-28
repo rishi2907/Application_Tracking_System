@@ -3,8 +3,89 @@ const passport = require('passport');
 const Admin = require('../models/Admin');
 const JobSchema = require('../models/JobSchema');
 const JobData = require('../models/JobData');
+const { Parser } = require('json2csv');
 
 
+exports.download = async(req,res)=>{
+  console.log("Hello");
+  var jobID = req.params.jobID;
+  var fields = [];
+  var data = {};
+  var result = [];
+  const opts = { fields };
+  
+  var jobData  = await JobData.find({jobID: jobID });
+
+  //getting headers
+    var parsedData = JSON.parse(jobData[0].formData);
+    for (const prop in parsedData) {
+    fields.push(prop); 
+    }
+
+//getting data
+for(i=0;i<jobData.length;i++)
+{
+  data = {};
+  var parsedData = JSON.parse(jobData[i].formData);
+  for (const prop in parsedData) {
+    var temp = parsedData[prop]['value'];
+    data[prop] = temp;
+    }
+    result.push(data);
+}
+    var filename = '' + jobID + '.csv';
+    const downloadFile = (res, fileName, fields, jobData) => {
+      const json2csv = new Parser(opts);
+      const csv = json2csv.parse(jobData);
+      res.header('Content-Type', 'text/csv');
+      res.attachment(fileName);
+      return res.send(csv);
+    }
+    return downloadFile(res, filename, opts, result);
+};
+
+exports.selectedDownload = async(req,res)=>{
+  var jobID = req.params.jobID;
+  var fields = [];
+  var data = {};
+  var result = [];
+  const opts = { fields };
+  
+  var jobData  = await JobData.find({jobID: jobID, adminStatus: "Accepted" });
+  console.log(jobData);
+if(jobData.length==0)
+{
+  res.send('No candidate selected yet');
+}
+else{
+    //getting headers
+    var parsedData = JSON.parse(jobData[0].formData);
+    for (const prop in parsedData) {
+    fields.push(prop); 
+    }
+
+//getting data
+for(i=0;i<jobData.length;i++)
+{
+  data = {};
+  var parsedData = JSON.parse(jobData[i].formData);
+  for (const prop in parsedData) {
+    var temp = parsedData[prop]['value'];
+    data[prop] = temp;
+    }
+    result.push(data);
+}
+    var filename = '' + jobID + '.csv';
+    const downloadFile = (res, fileName, fields, jobData) => {
+      const json2csv = new Parser(opts);
+      const csv = json2csv.parse(jobData);
+      res.header('Content-Type', 'text/csv');
+      res.attachment(fileName);
+      return res.send(csv);
+    }
+    return downloadFile(res, filename, opts, result);
+  }
+};
 
 exports.selectedApplication = async (req, res) => {
   if(req.user){

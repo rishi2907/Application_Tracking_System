@@ -18,9 +18,8 @@ var userController = require("./controllers/user");
 const passport = require("passport");
 const mongoose = require("mongoose");
 var MongoClient = require("mongodb").MongoClient;
-var url = "mongodb://localhost:27017/test";
-// var url =
-//   "mongodb://jobPortal:jobPortal@cluster0-shard-00-00-ygyti.mongodb.net:27017,cluster0-shard-00-01-ygyti.mongodb.net:27017,cluster0-shard-00-02-ygyti.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
+//var url = "mongodb://localhost:27017/test";
+var url =  "mongodb://jobPortal:jobPortal@cluster0-shard-00-00-ygyti.mongodb.net:27017,cluster0-shard-00-01-ygyti.mongodb.net:27017,cluster0-shard-00-02-ygyti.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
 const passportConfig = require("./config/passport");
 const db = mongoose.connection;
 
