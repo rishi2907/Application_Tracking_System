@@ -20,7 +20,7 @@
 
 </head>
 
-<body onload="onPageLoad()">
+<body style="background-color:white;" onload="onPageLoad()">
 
     <!-- <body> -->
 
@@ -33,14 +33,16 @@
     <% } %>
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-1">
             </div>
 
             <h3 hidden id="data"><%= result %></h3>
             <!-- <form action="#" onsubmit="submitform()" id="application-form" class="col-8"> -->
-            <form method="POST" action="/apply/submitForm" id="application-form" class="col-8"
+            <form method="POST" action="/apply/submitForm" id="application-form" class="col-10"
                 enctype="multipart/form-data">
             </form>
+            <div class="col-1">
+            </div>
         </div>
     </div>
 
@@ -101,8 +103,8 @@
             for (let property in formdata) {
                 // console.log(property)
                 if (formdata[property]["type"] == "text") {
-                    html += `<div class="row form-group mt-3 border" style="padding:15px;">`;
-                    html += `<div class="col-5"><label for="`;
+                    html += `<div class="row form-group mt-3" style="padding:15px;">`;
+                    html += `<div class="col-5 "><label for="`;
                     html += property;
                     html += `">`;
                     html += property;
@@ -115,7 +117,7 @@
                     html += `"></div></div>`;
                 }
                 else if (formdata[property]["type"] == "file") {
-                    html += `<div class="row  mt-3 border" style="padding:15px;"><div class="col-5"><label for="`;
+                    html += `<div class="row  mt-3" style="padding:15px;"><div class="col-5"><label for="`;
                     html += property;
                     html += `">`;
                     html += property;
@@ -131,7 +133,7 @@
                         <div class="invalid-feedback">Example invalid custom file feedback</div>
                         </div></div>`;
                 } else if (formdata[property]["type"] == "radio") {
-                    html += `<div class="row  mt-3 border" style="padding:15px;"><div class="col-5"><label for="`;
+                    html += `<div class="row  mt-3" style="padding:15px;"><div class="col-5"><label for="`;
                     html += property;
                     html += `">`;
                     html += property;

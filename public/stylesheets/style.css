@@ -22,7 +22,7 @@ a {
 .outer .button1 {
   position: absolute;
   top: 50%;
-  left:35%;
+  left:32%;
   background-color: white;
   color: blue;
   font-size: 16px;
@@ -36,7 +36,7 @@ a {
 .outer .button2 {
   position: absolute;
   top: 50%;
-  right: 35%;
+  left: 50%;
   background-color: white;
   color: blue;
   font-size: 16px;
