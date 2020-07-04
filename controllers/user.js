@@ -41,7 +41,25 @@ exports.clickButton1 = (req, res) => {
 
 
 exports.clickButton2 = async (req, res) => {
-  var data = await JobSchema.find({openingtype:"nontechnical", status:"open"});
+  var tempData = await JobSchema.find({openingtype:"nontechnical", status:"open"});
+  var data = [];
+
+  var today = new Date();
+  var todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  
+  
+
+  for(i=0; i<tempData.length; i++ ){
+    if(new Date(tempData[i].lastdate) < new Date(todayDate) ){
+      tempData[i].status = "closed";
+      tempData[i].save();
+
+    }
+    else{
+      data.push(tempData[i]);
+    }
+
+  }
   if(req.user){
    res.render('index', {
      name: req.user.name,
