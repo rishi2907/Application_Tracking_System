@@ -257,6 +257,7 @@ exports.getLogin = (req, res) => {
       smtpTransport.sendMail(mailOptions, function(err) {
         if(err){
           req.flash('errors', { msg: err});
+          return res.send(err);
         }
         else
         req.flash('success', { msg: 'Verification token is sent on your email-id click on the token to verify and activate your account' });
