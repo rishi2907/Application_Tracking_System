@@ -255,10 +255,13 @@ exports.getLogin = (req, res) => {
       };
 
       smtpTransport.sendMail(mailOptions, function(err) {
-        console.log(err);
-        console.log('mail sent---------------------');
+        if(err){
+          req.flash('errors', { msg: err});
+        }
+        else
         req.flash('success', { msg: 'Verification token is sent on your email-id click on the token to verify and activate your account' });
-      res.redirect("/login");
+        
+        res.redirect("/login");
       });
       
     });
