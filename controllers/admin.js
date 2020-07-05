@@ -354,7 +354,7 @@ exports.verifyAdminToken = (req, res, next) => {
     jwt.verify(token,"tokenGenerator",function(err, decodedToken){
       if(err){
         req.flash('errors', { msg: 'Token is either invalid or it has expired' });
-        res.redirect('/login');
+        return res.redirect('/login');
       }
       const {name, email, password, usertype} = decodedToken;
       
@@ -374,7 +374,7 @@ exports.verifyAdminToken = (req, res, next) => {
         }
         user.save((err) => {
           if (err) { return next(err); }
-          res.redirect('/admin');
+          return res.redirect('/admin');
         });
       });
 
@@ -490,5 +490,122 @@ exports.postLogin = (req, res, next) => {
 
     });
   })(req, res, next);
+};
+
+exports.getForgot = async (req, res) => {
+  if(req.user){
+    return res.redirect('/admin');
+
+  }else{
+
+    return res.render('admin/forgot', {});
+ }
+ 
+};
+
+exports.postForgot = async (req, res) => {
+  if(req.user){
+    res.redirect('/admin');
+
+  }else{
+    const email = req.body.email;
+    console.log(email+ "------------------------------");
+
+    const token = jwt.sign({email}, "tokenGenerator", {expiresIn: '10m'});
+
+    
+    var smtpTransport = nodemailer.createTransport({
+      service: 'Gmail', 
+      auth: {
+        user: 'codenikhil123@gmail.com',
+        pass: 'qwerty@123'
+        
+      }
+    });
+
+    var mailOptions = {
+      to: email,
+      from: 'codenikhil123@gmail.com',
+      subject: 'IIITDMJ JobPortal Password Reset',
+      text: 'You are receiving this because you (or someone else) have requested to change your password.\n\n' +
+        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+        'http://' + req.headers.host + '/admin/changePassword/' + token + '\n\n'
+    };
+
+    smtpTransport.sendMail(mailOptions, function(err) {
+      if(err){
+        req.flash('errors', { msg: err});
+        return res.send(err);
+      }
+      else
+      req.flash('success', { msg: 'link to reset your password has been sent on youe email' });
+      
+      res.redirect("/admin/login");
+    });
+
+ }
+ 
+};
+
+
+exports.changePassword = (req, res, next) => {
+
+  const token = req.params.token;
+
+  if(token){
+    jwt.verify(token,"tokenGenerator",function(err, decodedToken){
+      if(err){
+        req.flash('errors', { msg: 'Token is either invalid or it has expired' });
+        return res.redirect('/admin/login');
+      }
+      const {email} = decodedToken;
+      
+      Admin.findOne({ email: email }, (err, existingUser) => {
+        if (err) { return next(err); }
+        if (existingUser) {
+          return res.render('admin/reset', {email: email});
+        }
+        req.flash('errors', { msg: 'invalid Email-id or Token' });
+        return res.redirect('/admin');
+
+      });
+
+    });
+  }
+  else{
+    res.redirect('/admin');
+  }
+  
+  
+};
+
+
+exports.updatePassword = (req, res, next) => {
+
+  validationErrors = [];
+
+
+  // console.log("--------------------------");
+  // console.log(req.body.email + req.body.password1 + " " + req.body.password2  );
+
+  if (!validator.isLength(req.body.password1, { min: 8 })) validationErrors.push({ msg: 'Password must be at least 8 characters long' });
+  if (req.body.password1 !== req.body.password2) validationErrors.push({ msg: 'Passwords do not match' });
+
+  if (validationErrors.length) {
+    req.flash('errors', validationErrors);
+    return res.redirect('back');
+  }
+
+  Admin.findOne({ email: req.body.email }, (err, existingUser) => {
+    if (err) { return next(err); }
+
+    existingUser.password = req.body.password1;
+    existingUser.save();
+    
+    req.flash('success', { msg: 'Your Password has been changed'  });
+    return res.redirect('/admin/login');
+    
+  });
+  
 };
 
