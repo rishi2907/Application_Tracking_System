@@ -4,6 +4,8 @@ const Admin = require('../models/Admin');
 const JobSchema = require('../models/JobSchema');
 const JobData = require('../models/JobData');
 const { Parser } = require('json2csv');
+const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
 
 
 exports.download = async(req,res)=>{
@@ -299,6 +301,92 @@ exports.getSignup = (req, res) => {
   });
 };
 
+// exports.postSignup = (req, res, next) => {
+//   console.log("Admin post signup");
+//   const validationErrors = [];
+//   if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
+//   if (!validator.isLength(req.body.password, { min: 8 })) validationErrors.push({ msg: 'Password must be at least 8 characters long' });
+//   if (req.body.password !== req.body.confirmPassword) validationErrors.push({ msg: 'Passwords do not match' });
+
+//   if (validationErrors.length) {
+//     req.flash('errors', validationErrors);
+//     return res.redirect('/signup');
+//   }
+//   req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
+//   // var name = req.body.name[0].toUpperCase() +  
+//   //         req.body.name.slice(1);
+
+//   var name=req.body.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+
+//   const user = new Admin({
+//     email: req.body.email,
+//     password: req.body.password,
+//     name: name,
+//     usertype: req.body.usertype
+//   }); 
+
+//   Admin.findOne({ email: req.body.email }, (err, existingUser) => {
+//     if (err) { return next(err); }
+//     if (existingUser) {
+//       req.flash('errors', { msg: 'Account with that email address already exists.' });
+//       return res.redirect('/admin/register');
+//     }
+//     user.save((err) => {
+//       if (err) { return next(err); }
+//       console.log("redirect to login");
+//       res.redirect('/admin/login');
+//       /*req.logIn(user, (err) => {
+//         if (err) {
+//           return next(err);
+//         }
+//         res.redirect('/');
+//       });*/
+//     });
+//   });
+  
+// };
+
+
+exports.verifyAdminToken = (req, res, next) => {
+  const token = req.params.token;
+
+  if(token){
+    jwt.verify(token,"tokenGenerator",function(err, decodedToken){
+      if(err){
+        req.flash('errors', { msg: 'Token is either invalid or it has expired' });
+        res.redirect('/login');
+      }
+      const {name, email, password, usertype} = decodedToken;
+      
+      const user = new Admin({
+        email: email,
+        password: password,
+        name: name,
+        usertype: usertype
+      }); 
+
+
+      Admin.findOne({ email: email }, (err, existingUser) => {
+        if (err) { return next(err); }
+        if (existingUser) {
+          req.flash('errors', { msg: 'Account with that email address already exists.' });
+          return res.redirect('/admin/register');
+        }
+        user.save((err) => {
+          if (err) { return next(err); }
+          res.redirect('/admin');
+        });
+      });
+
+    });
+  }
+  else{
+    res.redirect('/');
+  }
+
+};
+
+
 exports.postSignup = (req, res, next) => {
   console.log("Admin post signup");
   const validationErrors = [];
@@ -329,17 +417,39 @@ exports.postSignup = (req, res, next) => {
       req.flash('errors', { msg: 'Account with that email address already exists.' });
       return res.redirect('/admin/register');
     }
-    user.save((err) => {
-      if (err) { return next(err); }
-      console.log("redirect to login");
-      res.redirect('/admin/login');
-      /*req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-        }
-        res.redirect('/');
-      });*/
+
+    const name = user.name;
+    const email = user.email;
+    const password = user.password;
+    const usertype = user.usertype;
+
+    const token = jwt.sign({name,email,password,usertype}, "tokenGenerator", {expiresIn: '10m'});
+
+    var smtpTransport = nodemailer.createTransport({
+      service: 'Gmail', 
+      auth: {
+        user: 'codenikhil123@gmail.com',
+        pass: 'qwerty@123'
+        
+      }
     });
+
+    var mailOptions = {
+      to: user.email,
+      from: 'codenikhil123@gmail.com',
+      subject: 'IIITDMJ JobPortal Account Verification',
+      text: 'You are receiving this because you (or someone else) have requested to create a new account.\n\n' +
+        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+        'http://' + req.headers.host + '/admin/verifyAdminToken/' + token + '\n\n'
+    };
+
+    smtpTransport.sendMail(mailOptions, function(err) {
+      console.log(err);
+      console.log('mail sent---------------------');
+      req.flash('success', { msg: 'Verification token is sent on your email-id click on the token to verify and activate your account' });
+      res.redirect("/login");
+    });
+    
   });
   
 };

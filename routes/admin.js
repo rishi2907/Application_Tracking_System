@@ -5,6 +5,7 @@ const JobSchema = require('../models/JobSchema');
 const JobData = require('../models/JobData');
 
 // router.get('/showApplications/pending', adminController.showApplication);
+router.get("/verifyAdminToken/:token", adminController.verifyAdminToken);
 router.get('/selected/:jobID', adminController.selectedApplication);
 router.get('/declareResult/:jobID', adminController.declareResult);
 router.get('/accept/:appID', adminController.acceptApplication);

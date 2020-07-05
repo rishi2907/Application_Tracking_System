@@ -4,6 +4,9 @@ const User = require('../models/User');
 var {getJobCard}= require('../routes/JobCard');
 const JobSchema = require('../models/JobSchema');
 const JobData = require('../models/JobData');
+const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+const { ReplSet } = require('mongodb');
 
 
 
@@ -149,6 +152,50 @@ exports.getLogin = (req, res) => {
   };
 
 
+  // exports.postSignup = (req, res, next) => {
+  //   console.log("signup route visited");
+  //   const validationErrors = [];
+  //   if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
+  //   if (!validator.isLength(req.body.password, { min: 8 })) validationErrors.push({ msg: 'Password must be at least 8 characters long' });
+  //   if (req.body.password !== req.body.confirmPassword) validationErrors.push({ msg: 'Passwords do not match' });
+  
+  //   if (validationErrors.length) {
+  //     req.flash('errors', validationErrors);
+  //     return res.redirect('/signup');
+  //   }
+  //   req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
+  //   // var name = req.body.name[0].toUpperCase() +  
+  //   //         req.body.name.slice(1);
+
+  //   var name=req.body.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  
+  //   const user = new User({
+  //     email: req.body.email,
+  //     password: req.body.password,
+  //     name: name
+  //   }); 
+  
+    // User.findOne({ email: req.body.email }, (err, existingUser) => {
+    //   if (err) { return next(err); }
+    //   if (existingUser) {
+    //     req.flash('errors', { msg: 'Account with that email address already exists.' });
+    //     return res.redirect('/signup');
+    //   }
+    //   user.save((err) => {
+    //     if (err) { return next(err); }
+    //     res.redirect('/login');
+    //     /*req.logIn(user, (err) => {
+    //       if (err) {
+    //         return next(err);
+    //       }
+    //       res.redirect('/');
+    //     });*/
+    //   });
+    // });
+    
+  // };
+
+
   exports.postSignup = (req, res, next) => {
     console.log("signup route visited");
     const validationErrors = [];
@@ -178,16 +225,82 @@ exports.getLogin = (req, res) => {
         req.flash('errors', { msg: 'Account with that email address already exists.' });
         return res.redirect('/signup');
       }
-      user.save((err) => {
-        if (err) { return next(err); }
-        res.redirect('/login');
-        /*req.logIn(user, (err) => {
-          if (err) {
-            return next(err);
-          }
-          res.redirect('/');
-        });*/
+
+      const name = user.name;
+      const email = user.email;
+      const password = user.password;
+
+      const token = jwt.sign({name,email,password}, "tokenGenerator", {expiresIn: '10m'});
+    
+      // console.log(user.email + " " + user.password + "---------------------------");
+      // console.log(token);   
+
+
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Gmail', 
+        auth: {
+          user: 'codenikhil123@gmail.com',
+          pass: 'qwerty@123'
+          
+        }
       });
+
+      var mailOptions = {
+        to: user.email,
+        from: 'codenikhil123@gmail.com',
+        subject: 'IIITDMJ JobPortal Account Verification',
+        text: 'You are receiving this because you (or someone else) have requested to create a new account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://' + req.headers.host + '/verifyToken/' + token + '\n\n'
+      };
+
+      smtpTransport.sendMail(mailOptions, function(err) {
+        console.log(err);
+        console.log('mail sent---------------------');
+        req.flash('success', { msg: 'Verification token is sent on your email-id click on the token to verify and activate your account' });
+      res.redirect("/login");
+      });
+      
     });
     
   };
+
+
+  exports.verifyToken = (req, res, next) => {
+
+    const token = req.params.token;
+
+    if(token){
+      jwt.verify(token,"tokenGenerator",function(err, decodedToken){
+        if(err){
+          req.flash('errors', { msg: 'Token is either invalid or it has expired' });
+          res.redirect('/login');
+        }
+        const {name, email, password} = decodedToken;
+        
+        const user = new User({
+          email: email,
+          password: password,
+          name: name
+        }); 
+        User.findOne({ email: email }, (err, existingUser) => {
+          if (err) { return next(err); }
+          if (existingUser) {
+            req.flash('errors', { msg: 'Account with that email address already exists.' });
+            return res.redirect('/signup');
+          }
+          user.save((err) => {
+            if (err) { return next(err); }
+            res.redirect('/login');
+          });
+        });
+
+      });
+    }
+    else{
+      res.redirect('/');
+    }
+    
+    
+  };
+  
