@@ -1,154 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Post a Job</title>
-        <link href="/admin/css/style.css" rel="stylesheet" />
-        <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="sb-nav-fixed">
-        <%- include('./partials/header'); -%>
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-              <%- include('./partials/sidenav'); -%>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Post a Job</title>
+  <link href="/admin/css/style.css" rel="stylesheet" />
+  <!-- <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet"
+    crossorigin="anonymous" /> -->
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' rel='stylesheet'>
+  <!-- <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"
+    crossorigin="anonymous"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0
+    }
+
+    html {
+      height: 100%
+    }
+
+    #msform {
+      text-align: center;
+      position: relative;
+      margin-top: 20px
+    }
+
+    #msform fieldset .form-card {
+      background: white;
+      border: 0 none;
+      border-radius: 0px;
+      box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+      padding: 20px 40px 30px 40px;
+      box-sizing: border-box;
+      width: 94%;
+      margin: 0 3% 20px 3%;
+      position: relative
+    }
+
+    #msform fieldset {
+      background: white;
+      border: 0 none;
+      border-radius: 0.5rem;
+      box-sizing: border-box;
+      width: 100%;
+      margin: 0;
+      padding-bottom: 20px;
+      position: relative
+    }
+
+    #msform fieldset:not(:first-of-type) {
+      display: none
+    }
+
+    #msform fieldset .form-card {
+      text-align: left;
+      color: #9E9E9E
+    }
+
+    #msform input,
+    #msform textarea {
+      padding: 0px 8px 4px 8px;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 0px;
+      margin-bottom: 25px;
+      margin-top: 2px;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: montserrat;
+      color: #2C3E50;
+      font-size: 16px;
+      letter-spacing: 1px
+    }
+
+    #msform input:focus,
+    #msform textarea:focus {
+      -moz-box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+      box-shadow: none !important;
+      border: none;
+      font-weight: bold;
+      border-bottom: 2px solid skyblue;
+      outline-width: 0
+    }
+
+    #msform .action-button {
+      width: 100px;
+      background: skyblue;
+      font-weight: bold;
+      color: white;
+      border: 0 none;
+      border-radius: 0px;
+      cursor: pointer;
+      padding: 10px 5px;
+      margin: 10px 5px
+    }
+
+    #msform .action-button:hover,
+    #msform .action-button:focus {
+      box-shadow: 0 0 0 2px white, 0 0 0 3px skyblue
+    }
+
+    #msform .action-button-previous {
+      width: 100px;
+      background: #616161;
+      font-weight: bold;
+      color: white;
+      border: 0 none;
+      border-radius: 0px;
+      cursor: pointer;
+      padding: 10px 5px;
+      margin: 10px 5px
+    }
+
+    #msform .action-button-success {
+      width: 100px;
+      background: green;
+      font-weight: bold;
+      color: white;
+      border: 0 none;
+      border-radius: 0px;
+      cursor: pointer;
+      padding: 10px 5px;
+      margin: 10px 5px
+    }
+
+    #msform .action-button-info {
+      width: 150px;
+      background: #616161;
+      font-weight: bold;
+      color: white;
+      border: 0 none;
+      border-radius: 0px;
+      cursor: pointer;
+      padding: 10px 5px;
+      margin: 10px 5px
+    }
+
+    #msform .action-button-previous:hover,
+    #msform .action-button-previous:focus {
+      box-shadow: 0 0 0 2px white, 0 0 0 3px #616161
+    }
+
+    #msform .action-button-success:hover,
+    #msform .action-button-success:focus {
+      box-shadow: 0 0 0 2px white, 0 0 0 3px #616161
+    }
+
+    #msform .action-button-info:hover,
+    #msform .action-button-info:focus {
+      box-shadow: 0 0 0 2px white, 0 0 0 3px #616161
+    }
+
+    select.list-dt {
+      border: none;
+      outline: 0;
+      border-bottom: 1px solid #ccc;
+      padding: 2px 5px 3px 5px;
+      margin: 2px
+    }
+
+    select.list-dt:focus {
+      border-bottom: 2px solid skyblue
+    }
+
+    .card {
+      z-index: 0;
+      border: none;
+      border-radius: 0.5rem;
+      position: relative
+    }
+
+    .fs-title {
+      font-size: 25px;
+      color: #2C3E50;
+      margin-bottom: 10px;
+      font-weight: bold;
+      text-align: left
+    }
+
+    #progressbar {
+      margin-bottom: 30px;
+      overflow: hidden;
+      color: lightgrey
+    }
+
+    #progressbar .active {
+      color: #000000
+    }
+
+    #progressbar li {
+      list-style-type: none;
+      font-size: 12px;
+      width: 20%;
+      float: left;
+      position: relative
+    }
+
+    #progressbar #account:before {
+      font-family: FontAwesome;
+      content: "\f023"
+    }
+
+    #progressbar #personal:before {
+      font-family: FontAwesome;
+      content: "\f007"
+    }
+
+    #progressbar #payment:before {
+      font-family: FontAwesome;
+      content: "\f09d"
+    }
+
+    #progressbar #confirm:before {
+      font-family: FontAwesome;
+      content: "\f00c"
+    }
+
+    #progressbar li:before {
+      width: 50px;
+      height: 50px;
+      line-height: 45px;
+      display: block;
+      font-size: 18px;
+      color: #ffffff;
+      background: lightgray;
+      border-radius: 50%;
+      margin: 0 auto 10px auto;
+      padding: 2px
+    }
+
+    #progressbar li:after {
+      content: '';
+      width: 100%;
+      height: 2px;
+      background: lightgray;
+      position: absolute;
+      left: 0;
+      top: 25px;
+      z-index: -1
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+      background: skyblue
+    }
+
+    .radio-group {
+      position: relative;
+      margin-bottom: 25px
+    }
+
+    .radio {
+      display: inline-block;
+      width: 204;
+      height: 104;
+      border-radius: 0;
+      background: lightblue;
+      box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+      box-sizing: border-box;
+      cursor: pointer;
+      margin: 8px 2px
+    }
+
+    .radio:hover {
+      box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+    }
+
+    .radio.selected {
+      box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+    }
+
+    .fit-image {
+      width: 100%;
+      object-fit: cover
+    }
+  </style>
+</head>
+
+<body class="sb-nav-fixed">
+  <%- include('./partials/header'); -%>
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <%- include('./partials/sidenav'); -%>
+    </div>
+    <div id="layoutSidenav_content">
+      <main style="margin:0px;padding: 0px;">
+        <div class=" container-fluid">
+          <div class="row justify-content-center mt-0">
+            <div class="col-12 text-center p-0">
+              <div class="card px-0 pt-4 pb-0">
+                <h2><strong>Create a Application</strong></h2>
+                <div class="row">
+                  <div class="col-1">
+                  </div>
+                  <div class="col-md-10 mx-0">
+                    <form id="msform">
+                      <!-- progressbar -->
+                      <ul id="progressbar">
+                        <li id="account" class="active"><strong>Job Information</strong></li>
+                        <li id="personal"><strong>Personal Information</strong></li>
+                        <li id="payment"><strong>Education</strong></li>
+                        <li id="confirm"><strong>Experience</strong></li>
+                        <li id="confirm"><strong>Additional Information</strong></li>
+                      </ul> <!-- fieldsets -->
+                      <fieldset id="jobInformation">
+                        <div class="form-card">
+                          <h2 class="fs-title">Job Information</h2>
+                          <div id="fs-jobInformation">
+                          </div>
+                        </div> <input type="button" name="next" class="next action-button" value="Next Step" />
+                      </fieldset>
+                      <fieldset id="personalInformation">
+                        <div class="form-card">
+                          <h2 class="fs-title">Personal Information</h2>
+                          <div id="fs-personalInformation">
+                          </div>
+                          <div id="add-field1">
+                          </div>
+                          <div id="add-field2">
+                          </div>
+                        </div> <input type="button" name="previous" class="previous action-button-previous"
+                          value="Previous" /><input type="button" name="addTextField" class="info1 action-button-info"
+                          value="Add Text Input" /> <input type="button" name="addFileField"
+                          class="info2 action-button-info" value="Add File Input" /> <input type="button" name="next"
+                          class="next action-button" value="Next Step" />
+                      </fieldset>
+                      <fieldset id="educationInformation">
+                        <div class="form-card">
+                          <h2 class="fs-title">Education </h2>
+                          <div id="fs-educationInformation">
+                          </div>
+                        </div> <input type="button" name="previous" class="previous action-button-previous"
+                          value="Previous" /> <input type="button" name="next" class="next action-button"
+                          value="Next Step" />
+                      </fieldset>
+                      <fieldset id="experienceInformation">
+                        <div class="form-card">
+                          <h2 class="fs-title">Experience </h2>
+                          <div id="fs-experienceInformation">
+                          </div>
+                        </div> <input type="button" name="previous" class="previous action-button-previous"
+                          value="Previous" /> <input type="button" name="next" class="next action-button"
+                          value="Next Step" />
+                      </fieldset>
+                      <fieldset id="additionalInformation">
+                        <div class="form-card">
+                          <h2 class="fs-title">Additional Information </h2>
+                          <div id="fs-additionalInformation">
+                          </div>
+                        </div> <input type="button" name="previous" class="previous action-button-previous"
+                          value="Previous" /> <input type="button" name="Submit" class="submit action-button-success"
+                          value="Submit" />
+                      </fieldset>
+
+                    </form>
+                  </div>
+                  <div class="col-1">
+                  </div>
+                </div>
+              </div>
             </div>
-            <div id="layoutSidenav_content">
-                <main>
-                    <div class="container-fluid">
-                        <br>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Post a Job</li>
-                        </ol>
-                        <h2 class="mt-4">Post a Job</h2>
-                        <form id="jobform" action="/admin/postjob" method="POST">
-                          <div id="form1">
-                            <div class="row">
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                  <label for="jobtitle">Job Title</label>
-                                  <input type="text" class="form-control" placeholder="" id="jobtitle" name="jobtitle" >
-                                </div>
-                              </div>                        
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                  <label for="salary">Salary Offered</label>
-                                  <input type="text" class="form-control" placeholder="" id="salary" name="salary">
-                                </div>
-                              </div>
-                            </div>
-                        
-                        
-                            <div class="row">
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                  <label for="experience">Experience Required</label>
-                                  <input type="text" class="form-control" placeholder="" id="experience" name="experience">
-                                </div>
-                              </div>
-                        
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                  <label for="eligibility">Eligibility</label>
-                                  <input type="text" class="form-control" id="elegibility" name="elegibility">
-                                </div>
-                              </div>
-                            </div>
-                        
-                            <div class="row">
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                  <label for="date">Apply By</label>
-                                  <input type="date" class="form-control" id="date" name="date">
-                                </div>
-                              </div>
-                              <!--  col-md-6   -->
-                        
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                  <label for="openingType">Type of Opening</label>
-                                  <select id="openingType " name="openingType" class="form-control">
-                                    <option value="technical">Technical Opening</option>
-                                    <option value="nontechnical">Non Technical Opening</option>
-                                  </select>
-                                </div>
-                        
-                              </div>
-                              <!--  col-md-6   -->
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                  <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea rows="4" cols="50" name="description" class="form-control" id="description"></textarea>
-                                  </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                  <div class="form-group">
-                                    <input type="hidden" id="formdata" name="formdata" value="">
-                                  </div>
-                                </div>
-                                
-                              </div>
-                              <button class="btn btn-primary" onclick="next1()">Next</button>
-                                
-                          </div>
-
-                          <div id="form2">
-                          </div>
-
-                          <div id="form6">
-                          </div>
-
-                          <div id="form3" style="display: none;">
-                            <label>Enter Field Name</label>
-                            <input  id="textField" name="textField" value="">
-                            <button class="btn btn-primary" onclick="removeText()">Cancel</button>
-                            <button class="btn btn-primary" onclick="insertText()">Insert</button>
-
-                            <br/><br/>
-
-                          </div>
-
-                          <div id="form5" style="display: none;">
-                            <label>Enter Field Name</label>
-                            <input  id="textField1" name="textField1" value="">
-                            <button class="btn btn-primary" onclick="removeFile()">Cancel</button>
-                            <button class="btn btn-primary" onclick="insertFile()">Insert</button>
-
-                            <br/><br/>
-
-                          </div>
-
-                          <div style = "display: none;" id="form4">
-                            <button class="btn btn-primary" onclick="prev1()">Prev</button>
-                            <button style="margin-left:20px;" onclick="addtext()" class="btn btn-primary">Add text field</button>
-                            <button style="margin-left:20px;" class="btn btn-primary" onclick="addfile()">Add file upload field</button>
-                            <button type="submit" style="margin-left:20px;" class="btn btn-primary" id="submit">Submit</button>
-                          </div>
-                            
-                          </form>
-                        <div class="mb-4">
-                            
-                            
-                        </div>
-                    </div>
-                </main>
-            </div>
+          </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/script.js"></script>
-        <script src="js/data.js"></script>
-        <script src="js/formscript.js"></script>
-        <script>
+
+      </main>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+
+
+  <!-- <script>
           var data;
           var dataBin=[];
 
@@ -305,7 +535,138 @@
             document.getElementById("formdata").value = JSON.stringify(data);
           });
 
-        </script>
-        
-    </body>
+        </script> -->
+  <script type='text/javascript'>$(document).ready(function () {
+
+      mySet = new Map();
+
+      var current_fs, next_fs, previous_fs; //fieldsets
+      var opacity;
+
+      $(".next").click(function () {
+
+        current_fs = $(this).parent();
+
+        next_fs = $(this).parent().next();
+
+        //Add Class Active
+        $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+        //show the next fieldset
+        next_fs.show();
+        //hide the current fieldset with style
+        current_fs.animate({ opacity: 0 }, {
+          step: function (now) {
+            // for making fielset appear animation
+            opacity = 1 - now;
+
+            current_fs.css({
+              'display': 'none',
+              'position': 'relative'
+            });
+            next_fs.css({ 'opacity': opacity });
+          },
+          duration: 600
+        });
+      });
+
+      $(".previous").click(function () {
+
+        current_fs = $(this).parent();
+        previous_fs = $(this).parent().prev();
+
+        //Remove class active
+        $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+        //show the previous fieldset
+        previous_fs.show();
+
+        //hide the current fieldset with style
+        current_fs.animate({ opacity: 0 }, {
+          step: function (now) {
+            // for making fielset appear animation
+            opacity = 1 - now;
+
+            current_fs.css({
+              'display': 'none',
+              'position': 'relative'
+            });
+            previous_fs.css({ 'opacity': opacity });
+          },
+          duration: 600
+        });
+      });
+
+      $(".info1").click(function () {
+        document.getElementById("add-field1").innerHTML = `<div class="row"><div class="col-3"><label for="add-field">Add Text Input Field</label></div><div class="col-5"><input type="text" id="text-field1" /></div><div class="col-2"><input type="button" class="btn btn-primary" onclick="add1();" value="Add Field"/></div><div class="col-2"><input type="button" class="btn btn-danger" onclick="cancel1()" value="cancel"/></div></div>`
+      });
+      $(".info2").click(function () {
+        document.getElementById("add-field2").innerHTML = `<div class="row"><div class="col-3"><label for="add-field">Add File Input Field</label></div><div class="col-5"><input type="text" id="file-field1" /></div><div class="col-2"><input type="button" class="btn btn-primary" onclick="add2();" value="Add Field"/></div><div class="col-2"><input type="button" class="btn btn-danger" onclick="cancel2()" value="cancel"/></div></div>`
+      });
+
+      $('.radio-group .radio').click(function () {
+        $(this).parent().find('.radio').removeClass('selected');
+        $(this).addClass('selected');
+      });
+
+      $(".submit").click(function () {
+        console.log("rishi arihdnkl nlk")
+        return false;
+      })
+
+      document.getElementById("fs-jobInformation").innerHTML = fieldWithOutCheckBox(jobInformation)
+      document.getElementById("fs-personalInformation").innerHTML = fieldWithCheckBox(personalInformation, "personalInformation")
+      document.getElementById("fs-educationInformation").innerHTML = fieldWithCheckBox(educationInformation, "educationInformation");
+      document.getElementById("fs-experienceInformation").innerHTML = fieldWithCheckBox(experienceInformation, "experienceInformation");
+      document.getElementById("fs-additionalInformation").innerHTML = fieldWithCheckBox(additionalInformation, "additionalInformation");
+
+
+      // for (let field in JobInformation) {
+      //   console.log(JobInformation[field])
+      // }
+
+    });
+    function cancel1() {
+      document.getElementById("add-field1").innerHTML = "";
+    }
+    function add1() {
+      let temp = document.getElementById("text-field1").value;
+      console.log(temp);
+      if (temp != '') {
+        let html = fieldWithCheckBox([{
+          "field_name": temp,
+          "field_type": "text",
+          "selected": true,
+          "important": true,
+        }], "personalInformation");
+
+        $('#fs-personalInformation').append(html);
+      }
+      document.getElementById("add-field1").innerHTML = "";
+    }
+    function cancel2() {
+      document.getElementById("add-field2").innerHTML = "";
+    }
+    function add2() {
+      let temp = document.getElementById("file-field1").value;
+      console.log(temp);
+      if (temp != '') {
+        let html = fieldWithCheckBox([{
+          "field_name": temp,
+          "field_type": "file",
+          "selected": true,
+          "important": true,
+        }], "personalInformation");
+
+        $('#fs-personalInformation').append(html);
+      }
+      document.getElementById("add-field2").innerHTML = "";
+    }
+  </script>
+  <script src="js/script.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/formscript.js"></script>
+
+</body>
+
 </html>
