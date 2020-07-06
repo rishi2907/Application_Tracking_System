@@ -273,7 +273,14 @@ exports.postJobForm = async (req, res) => {
   for (let property in req.body.formdata) {
     outer0 = property.split("#");
     // console.log(outer0)
-    jobform[outer0[0]][outer0[1]] = { "type": req.body.formdata[property]["field_type"] }
+    if (req.body.formdata[property]["field_type"] == "radio") {
+      jobform[outer0[0]][outer0[1]] = { "type": req.body.formdata[property]["field_type"], "value": req.body.formdata[property]["field_value"] }
+
+    }
+    else {
+      jobform[outer0[0]][outer0[1]] = { "type": req.body.formdata[property]["field_type"] }
+
+    }
     // console.log("Key: " + property);
     // console.log("Value: " + req.body.formdata[property]);
     // formdata[k] = v;
@@ -365,27 +372,27 @@ exports.getSignup = (req, res) => {
 //       });*/
 //     });
 //   });
-  
+
 // };
 
 
 exports.verifyAdminToken = (req, res, next) => {
   const token = req.params.token;
 
-  if(token){
-    jwt.verify(token,"tokenGenerator",function(err, decodedToken){
-      if(err){
+  if (token) {
+    jwt.verify(token, "tokenGenerator", function (err, decodedToken) {
+      if (err) {
         req.flash('errors', { msg: 'Token is either invalid or it has expired' });
         return res.redirect('/login');
       }
-      const {name, email, password, usertype} = decodedToken;
-      
+      const { name, email, password, usertype } = decodedToken;
+
       const user = new Admin({
         email: email,
         password: password,
         name: name,
         usertype: usertype
-      }); 
+      });
 
 
       Admin.findOne({ email: email }, (err, existingUser) => {
@@ -402,7 +409,7 @@ exports.verifyAdminToken = (req, res, next) => {
 
     });
   }
-  else{
+  else {
     res.redirect('/');
   }
 
@@ -445,14 +452,14 @@ exports.postSignup = (req, res, next) => {
     const password = user.password;
     const usertype = user.usertype;
 
-    const token = jwt.sign({name,email,password,usertype}, "tokenGenerator", {expiresIn: '10m'});
+    const token = jwt.sign({ name, email, password, usertype }, "tokenGenerator", { expiresIn: '10m' });
 
     var smtpTransport = nodemailer.createTransport({
-      service: 'Gmail', 
+      service: 'Gmail',
       auth: {
         user: 'codenikhil123@gmail.com',
         pass: 'qwerty@123'
-        
+
       }
     });
 
@@ -465,13 +472,13 @@ exports.postSignup = (req, res, next) => {
         'http://' + req.headers.host + '/admin/verifyAdminToken/' + token + '\n\n'
     };
 
-    smtpTransport.sendMail(mailOptions, function(err) {
+    smtpTransport.sendMail(mailOptions, function (err) {
       console.log(err);
       console.log('mail sent---------------------');
       req.flash('success', { msg: 'Verification token is sent on your email-id click on the token to verify and activate your account' });
       res.redirect("/login");
     });
-    
+
   });
 
 };
@@ -515,33 +522,33 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.getForgot = async (req, res) => {
-  if(req.user){
+  if (req.user) {
     return res.redirect('/admin');
 
-  }else{
+  } else {
 
     return res.render('admin/forgot', {});
- }
- 
+  }
+
 };
 
 exports.postForgot = async (req, res) => {
-  if(req.user){
+  if (req.user) {
     res.redirect('/admin');
 
-  }else{
+  } else {
     const email = req.body.email;
-    console.log(email+ "------------------------------");
+    console.log(email + "------------------------------");
 
-    const token = jwt.sign({email}, "tokenGenerator", {expiresIn: '10m'});
+    const token = jwt.sign({ email }, "tokenGenerator", { expiresIn: '10m' });
 
-    
+
     var smtpTransport = nodemailer.createTransport({
-      service: 'Gmail', 
+      service: 'Gmail',
       auth: {
         user: 'codenikhil123@gmail.com',
         pass: 'qwerty@123'
-        
+
       }
     });
 
@@ -554,19 +561,19 @@ exports.postForgot = async (req, res) => {
         'http://' + req.headers.host + '/admin/changePassword/' + token + '\n\n'
     };
 
-    smtpTransport.sendMail(mailOptions, function(err) {
-      if(err){
-        req.flash('errors', { msg: err});
+    smtpTransport.sendMail(mailOptions, function (err) {
+      if (err) {
+        req.flash('errors', { msg: err });
         return res.send(err);
       }
       else
-      req.flash('success', { msg: 'link to reset your password has been sent on youe email' });
-      
+        req.flash('success', { msg: 'link to reset your password has been sent on youe email' });
+
       res.redirect("/admin/login");
     });
 
- }
- 
+  }
+
 };
 
 
@@ -574,18 +581,18 @@ exports.changePassword = (req, res, next) => {
 
   const token = req.params.token;
 
-  if(token){
-    jwt.verify(token,"tokenGenerator",function(err, decodedToken){
-      if(err){
+  if (token) {
+    jwt.verify(token, "tokenGenerator", function (err, decodedToken) {
+      if (err) {
         req.flash('errors', { msg: 'Token is either invalid or it has expired' });
         return res.redirect('/admin/login');
       }
-      const {email} = decodedToken;
-      
+      const { email } = decodedToken;
+
       Admin.findOne({ email: email }, (err, existingUser) => {
         if (err) { return next(err); }
         if (existingUser) {
-          return res.render('admin/reset', {email: email});
+          return res.render('admin/reset', { email: email });
         }
         req.flash('errors', { msg: 'invalid Email-id or Token' });
         return res.redirect('/admin');
@@ -594,11 +601,11 @@ exports.changePassword = (req, res, next) => {
 
     });
   }
-  else{
+  else {
     res.redirect('/admin');
   }
-  
-  
+
+
 };
 
 
@@ -623,11 +630,11 @@ exports.updatePassword = (req, res, next) => {
 
     existingUser.password = req.body.password1;
     existingUser.save();
-    
-    req.flash('success', { msg: 'Your Password has been changed'  });
+
+    req.flash('success', { msg: 'Your Password has been changed' });
     return res.redirect('/admin/login');
-    
+
   });
-  
+
 };
 
