@@ -7,18 +7,19 @@ const JobSchema = require("../models/JobSchema");
 router.get("/", async function (req, res, next) {
   var data = [];
   var tempData = await JobSchema.find({ openingtype: "technical", status: "open" });
-  var today = new Date();
-  var todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  
-  
 
-  for(i=0; i<tempData.length; i++ ){
-    if(new Date(tempData[i].lastdate) < new Date(todayDate) ){
+  var today = new Date();
+  var todayDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+
+
+  for (i = 0; i < tempData.length; i++) {
+    if (new Date(tempData[i].lastdate) < new Date(todayDate)) {
       tempData[i].status = "closed";
       tempData[i].save();
 
     }
-    else{
+    else {
       data.push(tempData[i]);
     }
 
@@ -27,7 +28,7 @@ router.get("/", async function (req, res, next) {
   // console.log(tempData);
   // console.log("--------------------------------------------");
   // console.log(data);
-  
+
 
   if (req.user) {
     res.render("index", {

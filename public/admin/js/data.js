@@ -32,7 +32,7 @@ jobInformation = [
     {
         "field_name": "Type_of_Opening",
         "field_type": "radio",
-        "field_value": ["Technical_Opening", "Non-Technical_Opening"],
+        "field_value": ["technical", "nontechnical"],
         "selected": true,
         "important": true,
     },
