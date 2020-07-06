@@ -17,7 +17,277 @@
     <link rel="stylesheet" href="/stylesheets/main.css" />
     <link rel="stylesheet" href="/stylesheets/footer.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
 
+        html {
+            height: 100%
+        }
+
+        #msform {
+            text-align: center;
+            position: relative;
+            margin-top: 20px
+        }
+
+        #msform fieldset .form-card {
+            background: white;
+            border: 0 none;
+            border-radius: 0px;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            padding: 20px 40px 30px 40px;
+            box-sizing: border-box;
+            width: 94%;
+            margin: 0 3% 20px 3%;
+            position: relative
+        }
+
+        #msform fieldset {
+            background: white;
+            border: 0 none;
+            border-radius: 0.5rem;
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0;
+            padding-bottom: 20px;
+            position: relative
+        }
+
+        #msform fieldset:not(:first-of-type) {
+            display: none
+        }
+
+        #msform fieldset .form-card {
+            text-align: left;
+            color: #9E9E9E
+        }
+
+        #msform input,
+        #msform textarea {
+            padding: 0px 8px 4px 8px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            border-radius: 0px;
+            margin-bottom: 25px;
+            margin-top: 2px;
+            width: 100%;
+            box-sizing: border-box;
+            font-family: montserrat;
+            color: #2C3E50;
+            font-size: 16px;
+            letter-spacing: 1px
+        }
+
+        #msform input:focus,
+        #msform textarea:focus {
+            -moz-box-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+            border: none;
+            font-weight: bold;
+            border-bottom: 2px solid skyblue;
+            outline-width: 0
+        }
+
+        #msform .action-button {
+            width: 100px;
+            background: skyblue;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+        #msform .action-button:hover,
+        #msform .action-button:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px skyblue
+        }
+
+        #msform .action-button-previous {
+            width: 100px;
+            background: #616161;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+        #msform .action-button-success {
+            width: 100px;
+            background: green;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+        #msform .action-button-info {
+            width: 150px;
+            background: #616161;
+            font-weight: bold;
+            color: white;
+            border: 0 none;
+            border-radius: 0px;
+            cursor: pointer;
+            padding: 10px 5px;
+            margin: 10px 5px
+        }
+
+        #msform .action-button-previous:hover,
+        #msform .action-button-previous:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #616161
+        }
+
+        #msform .action-button-success:hover,
+        #msform .action-button-success:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #616161
+        }
+
+        #msform .action-button-info:hover,
+        #msform .action-button-info:focus {
+            box-shadow: 0 0 0 2px white, 0 0 0 3px #616161
+        }
+
+        select.list-dt {
+            border: none;
+            outline: 0;
+            border-bottom: 1px solid #ccc;
+            padding: 2px 5px 3px 5px;
+            margin: 2px
+        }
+
+        select.list-dt:focus {
+            border-bottom: 2px solid skyblue
+        }
+
+        .card {
+            z-index: 0;
+            border: none;
+            border-radius: 0.5rem;
+            position: relative
+        }
+
+        .fs-title {
+            font-size: 25px;
+            color: #2C3E50;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: left
+        }
+
+        #progressbar {
+            margin-bottom: 30px;
+            overflow: hidden;
+            color: lightgrey
+        }
+
+        #progressbar .active {
+            color: #000000
+        }
+
+        #progressbar li {
+            list-style-type: none;
+            font-size: 12px;
+            width: 20%;
+            float: left;
+            position: relative
+        }
+
+        #progressbar #account:before {
+            font-family: FontAwesome;
+            content: "\f023"
+        }
+
+        #progressbar #personal:before {
+            font-family: FontAwesome;
+            content: "\f007"
+        }
+
+        #progressbar #payment:before {
+            font-family: FontAwesome;
+            content: "\f09d"
+        }
+
+        #progressbar #confirm:before {
+            font-family: FontAwesome;
+            content: "\f00c"
+        }
+
+        label {
+            color: black;
+        }
+
+        #progressbar li:before {
+            width: 50px;
+            height: 50px;
+            line-height: 45px;
+            display: block;
+            font-size: 18px;
+            color: #ffffff;
+            background: lightgray;
+            border-radius: 50%;
+            margin: 0 auto 10px auto;
+            padding: 2px
+        }
+
+        #progressbar li:after {
+            content: '';
+            width: 100%;
+            height: 2px;
+            background: lightgray;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            z-index: -1
+        }
+
+        #progressbar li.active:before,
+        #progressbar li.active:after {
+            background: skyblue
+        }
+
+        .radio-group {
+            position: relative;
+            margin-bottom: 25px
+        }
+
+        .radio {
+            display: inline-block;
+            width: 204;
+            height: 104;
+            border-radius: 0;
+            background: lightblue;
+            box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            cursor: pointer;
+            margin: 8px 2px
+        }
+
+        .radio:hover {
+            box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3)
+        }
+
+        .radio.selected {
+            box-shadow: 1px 1px 2px 2px rgba(0, 0, 0, 0.1)
+        }
+
+        .fit-image {
+            width: 100%;
+            object-fit: cover
+        }
+    </style>
 </head>
 
 <body style="background-color:white;" onload="onPageLoad()">
@@ -31,75 +301,205 @@
     <% if(name!="login_req") {%>
     <%- include('./partials/header2'); -%>
     <% } %>
-    <div class="container">
+    <!-- <div class="container">
         <div class="row">
             <div class="col-1">
             </div>
 
             <h3 hidden id="data"><%= result %></h3>
-            <!-- <form action="#" onsubmit="submitform()" id="application-form" class="col-8"> -->
+            <form action="#" onsubmit="submitform()" id="application-form" class="col-8">
             <form method="POST" action="/apply/submitForm" id="application-form" class="col-10"
                 enctype="multipart/form-data">
             </form>
             <div class="col-1">
             </div>
         </div>
+    </div> -->
+    <div class=" container">
+        <div class="row justify-content-center mt-0">
+            <div class="col-12 text-center p-0">
+                <div class="card px-0 pt-4 pb-0">
+                    <h2 id="title"></h2>
+                    <div class="row">
+                        <div class="col-1">
+                        </div>
+                        <h3 hidden id="data"><%= result %></h3>
+                        <div class="col-md-10 mx-0">
+                            <form id="msform" method="POST" action="/apply/submitForm" enctype="multipart/form-data">
+                                <!-- progressbar -->
+                                <ul id="progressbar">
+                                    <!-- <li id="account" ><strong>Job Information</strong></li> -->
+                                    <li id="personal" class="active"><strong>Personal Information</strong></li>
+                                    <li id="payment"><strong>Education</strong></li>
+                                    <li id="confirm"><strong>Experience</strong></li>
+                                    <li id="account"><strong>Additional Information</strong></li>
+                                    <li id="payment"><strong>Payment</strong></li>
+                                </ul> <!-- fieldsets -->
+
+                                <fieldset id="personalInformation">
+                                    <div class="form-card">
+                                        <h2 class="fs-title">Personal Information</h2>
+                                        <div id="fs-personalInformation">
+                                        </div>
+                                    </div>
+                                    <input type="button" name="next" class="next action-button" value="Next Step" />
+                                </fieldset>
+                                <fieldset id="educationInformation">
+                                    <div class="form-card">
+                                        <h2 class="fs-title">Education </h2>
+                                        <div id="fs-educationInformation">
+                                        </div>
+                                    </div> <input type="button" name="previous" class="previous action-button-previous"
+                                        value="Previous" /><input type="button" name="next" class="next action-button"
+                                        value="Next Step" />
+                                </fieldset>
+                                <fieldset id="experienceInformation">
+                                    <div class="form-card">
+                                        <h2 class="fs-title">Experience </h2>
+                                        <div id="fs-experienceInformation">
+                                        </div>
+                                    </div> <input type="button" name="previous" class="previous action-button-previous"
+                                        value="Previous" /><input type="button" name="next" class="next action-button"
+                                        value="Next Step" />
+                                </fieldset>
+                                <fieldset id="additionalInformation">
+                                    <div class="form-card">
+                                        <h2 class="fs-title">Additional Information </h2>
+                                        <div id="fs-additionalInformation">
+                                        </div>
+                                    </div> <input type="button" name="previous" class="previous action-button-previous"
+                                        value="Previous" /><input type="submit" name="Submit"
+                                        class="submit action-button-success" value="Submit" />
+                                </fieldset>
+
+                            </form>
+                        </div>
+                        <div class="col-1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+
     <%- include('./partials/footer'); -%>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+    <script type='text/javascript'>$(document).ready(function () {
+
+            var current_fs, next_fs, previous_fs; //fieldsets
+            var opacity;
+
+            $(".next").click(function () {
+
+                current_fs = $(this).parent();
+
+                next_fs = $(this).parent().next();
+
+                //Add Class Active
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+                //show the next fieldset
+                next_fs.show();
+                //hide the current fieldset with style
+                current_fs.animate({ opacity: 0 }, {
+                    step: function (now) {
+                        // for making fielset appear animation
+                        opacity = 1 - now;
+
+                        current_fs.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        next_fs.css({ 'opacity': opacity });
+                    },
+                    duration: 600
+                });
+            });
+
+            $(".previous").click(function () {
+
+                current_fs = $(this).parent();
+                previous_fs = $(this).parent().prev();
+
+                //Remove class active
+                $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+                //show the previous fieldset
+                previous_fs.show();
+
+                //hide the current fieldset with style
+                current_fs.animate({ opacity: 0 }, {
+                    step: function (now) {
+                        // for making fielset appear animation
+                        opacity = 1 - now;
+
+                        current_fs.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        previous_fs.css({ 'opacity': opacity });
+                    },
+                    duration: 600
+                });
+            });
+
+
+            $('.radio-group .radio').click(function () {
+                $(this).parent().find('.radio').removeClass('selected');
+                $(this).addClass('selected');
+            });
+
+            // $(".submit").click(async function () {
+            //     console.log("rishi arihdnkl nlk")
+            //     let data = {};
+            //     // console.log(document.getElementById("Job_Title").value);
+            //     data["jobtitle"] = document.getElementById("Job_Title").value;
+            //     data["salary"] = document.getElementById("Salary_Offered").value;
+            //     data["experience"] = document.getElementById("Experience_Required").value;
+            //     data["elegibility"] = document.getElementById("Eligibility").value;
+            //     data["date"] = document.getElementById("Apply_By").value;
+            //     data["openingType"] = document.getElementById("Type_of_Opening").value;
+            //     // data["fee"] = document.getElementById("Application_Fee").value;
+            //     data["description"] = document.getElementById("Description").value;
+
+            //     formdata = {};
+            //     for (let [k, v] of mySet) {
+            //         console.log("Key: " + k);
+            //         console.log("Value: " + v);
+            //         formdata[k] = v;
+            //     }
+            //     data["formdata"] = formdata;
+
+            //     // console.log(data);
+            //     url = "/admin/postjob";
+            //     const response = await fetch(url, {
+            //         method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            //         mode: 'cors', // no-cors, *cors, same-origin
+            //         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            //         credentials: 'same-origin', // include, *same-origin, omit
+            //         headers: {
+            //             'Content-Type': 'application/json'
+            //             // 'Content-Type': 'application/x-www-form-urlencoded',
+            //         },
+            //         redirect: 'manual', // manual, *follow, error
+            //         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            //         body: JSON.stringify(data) // body data type must match "Content-Type" header
+            //     });
+            //     window.location.href = "/admin/getsuccessjob";
+            //     return true;
+            // })
+
+        });
+    </script>
     <script>
         // console.log(result)
         let response = {};
         let result;
         let formdata;
-        function submitform() {
-            event.preventDefault();
-            response["jobid"] = result["_id"]
-            // console.log(response["jobid"]);
-            for (let property in formdata) {
-                let val = document.getElementById(property).value;
-                response[property] = {}
-                response[property]["value"] = val;
-                response[property]["type"] = formdata[property]["type"];
-                // console.log(val);
-            }
-            console.log(response);
-            postData('/apply/submitForm', response)
-                .then(data => {
-                    console.log(data);
-                    // JSON data parsed by `response.json()` call
-                });
-            window.location.href = "/apply/submit";
 
-        }
-        async function postData(url = '', data = {}) {
-            // Default options are marked with *
-            const response = await fetch(url, {
-                method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                mode: 'cors', // no-cors, *cors, same-origin
-                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: 'same-origin', // include, *same-origin, omit
-                headers: {
-                    'Content-Type': 'application/json'
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                redirect: 'follow', // manual, *follow, error
-                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-                body: JSON.stringify(data) // body data type must match "Content-Type" header
-            });
-            return response.json(); // parses JSON response into native JavaScript objects
-        }
-
-        function onPageLoad() {
-            result = document.getElementById("data").innerHTML;
-            result = JSON.parse(result);
-            // console.log(result);
-            formdata = JSON.parse(result.formdata);
-            // console.log(formdata["name"])
-            let html = `<div class="form-check"><input type="hidden" name="jobid" value="`
-            html += result["_id"];
-            html += `">`;
-
+        function htmlGenerator(stepper, formdata) {
+            let html = '';
             for (let property in formdata) {
                 // console.log(property)
                 if (formdata[property]["type"] == "text") {
@@ -132,7 +532,8 @@
                     html += `</label>
                         <div class="invalid-feedback">Example invalid custom file feedback</div>
                         </div></div>`;
-                } else if (formdata[property]["type"] == "radio") {
+                }
+                else if (formdata[property]["type"] == "radio") {
                     html += `<div class="row  mt-3" style="padding:15px;"><div class="col-5"><label for="`;
                     html += property;
                     html += `">`;
@@ -153,14 +554,123 @@
                     }
 
                     html += `</select></div></div>`;
-                } else if (formdata[property]["type"] == "checkbox") {
+                }
+                else if (formdata[property]["type"] == "number") {
+                    html += `<div class="row form-group mt-3" style="padding:15px;">`;
+                    html += `<div class="col-5 "><label for="`;
+                    html += property;
+                    html += `">`;
+                    html += property;
+                    html += `</label></div>`;
+
+                    html += `<div class="col-6"><input type="number" required class="form-control" name="`;
+                    html += property + "$" + formdata[property]["type"];
+                    html += `" placeholder="" id="`;
+                    html += property;
+                    html += `"></div></div>`;
+                }
+                else if (formdata[property]["type"] == "email") {
+                    html += `<div class="row form-group mt-3" style="padding:15px;">`;
+                    html += `<div class="col-5 "><label for="`;
+                    html += property;
+                    html += `">`;
+                    html += property;
+                    html += `</label></div>`;
+
+                    html += `<div class="col-6"><input type="email" required class="form-control" name="`;
+                    html += property + "$" + formdata[property]["type"];
+                    html += `" placeholder="" id="`;
+                    html += property;
+                    html += `"></div></div>`;
+                }
+                else if (formdata[property]["type"] == "date") {
+                    html += `<div class="row form-group mt-3" style="padding:15px;">`;
+                    html += `<div class="col-5 "><label for="`;
+                    html += property;
+                    html += `">`;
+                    html += property;
+                    html += `</label></div>`;
+
+                    html += `<div class="col-6"><input type="date" required class="form-control" name="`;
+                    html += property + "$" + formdata[property]["type"];
+                    html += `" placeholder="" id="`;
+                    html += property;
+                    html += `"></div></div>`;
+                }
+                else if (formdata[property]["type"] == "textarea") {
+                    html += `<div class="row form-group mt-3" style="padding:15px;">`;
+                    html += `<div class="col-5 "><label for="`;
+                    html += property;
+                    html += `">`;
+                    html += property;
+                    html += `</label></div>`;
+
+                    html += `<div class="col-6"><textarea rows="6" cols="50" required class="form-control" name="`;
+                    html += property + "$" + formdata[property]["type"];
+                    html += `" placeholder="" id="`;
+                    html += property;
+                    html += `"></textarea></div></div>`;
+                }
+                else if (formdata[property]["type"] == "checkbox") {
                 }
             }
+            return html;
+        }
+        // function submitform() {
+        //     event.preventDefault();
+        //     response["jobid"] = result["_id"]
+        //     // console.log(response["jobid"]);
+        //     for (let property in formdata) {
+        //         let val = document.getElementById(property).value;
+        //         response[property] = {}
+        //         response[property]["value"] = val;
+        //         response[property]["type"] = formdata[property]["type"];
+        //         // console.log(val);
+        //     }
+        //     console.log(response);
+        //     postData('/apply/submitForm', response)
+        //         .then(data => {
+        //             console.log(data);
+        //             // JSON data parsed by `response.json()` call
+        //         });
+        //     window.location.href = "/apply/submit";
 
-            html += `<center><button class="btn btn-primary" style="margin: 5px;" type="submit">Submit</button></center>`
-            let currentField = document.getElementById("application-form");
+        // }
+        // async function postData(url = '', data = {}) {
+        //     // Default options are marked with *
+        //     const response = await fetch(url, {
+        //         method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        //         mode: 'cors', // no-cors, *cors, same-origin
+        //         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //         credentials: 'same-origin', // include, *same-origin, omit
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //             // 'Content-Type': 'application/x-www-form-urlencoded',
+        //         },
+        //         redirect: 'follow', // manual, *follow, error
+        //         referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        //         body: JSON.stringify(data) // body data type must match "Content-Type" header
+        //     });
+        //     return response.json(); // parses JSON response into native JavaScript objects
+        // }
 
-            currentField.innerHTML = html;
+        function onPageLoad() {
+            result = document.getElementById("data").innerHTML;
+            console.log(result)
+            result = JSON.parse(result);
+            console.log(result)
+            document.getElementById("title").innerHTML = `<strong>Application for ` + result.jobtitle.charAt(0).toUpperCase() + result.jobtitle.slice(1) + `</strong>`
+            // console.log(result);
+            formdata = JSON.parse(result.formdata);
+            console.log(formdata)
+            let html = `<div class="form-check"><input type="hidden" name="jobid" value="`
+            html += result["_id"];
+            html += `">`;
+
+            document.getElementById("fs-personalInformation").innerHTML = html + htmlGenerator("personalInformation", formdata["personalInformation"])
+            document.getElementById("fs-educationInformation").innerHTML = htmlGenerator("educationInformation", formdata["educationInformation"]);
+            document.getElementById("fs-experienceInformation").innerHTML = htmlGenerator("experienceInformation", formdata["experienceInformation"]);
+            document.getElementById("fs-additionalInformation").innerHTML = htmlGenerator("additionalInformation", formdata["additionalInformation"]);
         }
 
     </script>
