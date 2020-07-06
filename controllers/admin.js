@@ -131,6 +131,28 @@ exports.declareResult = async (req, res) => {
   if (req.user) {
     var jobID = req.params.jobID;
     var jobData = await JobData.find({ jobID: jobID });
+    // console.log(jobData);
+
+    var smtpTransport = nodemailer.createTransport({
+      service: 'Yahoo', 
+        auth: {
+          user: 'innovaccer@yahoo.com',
+          pass: 'lkpmgahdxpmkvuyt'
+          
+        }
+    });
+
+    for(var i=0; i<jobData.length;i++){
+      var mailOptions = {
+        to: jobData[i].emailID,
+        from: 'innovaccer@yahoo.com',
+        subject: 'IIITDMJ JobPortal Result Out Notification',
+        text: 'Results are out! login to IIITDMJ JobPortal and check your result\n\n'
+      };
+
+      smtpTransport.sendMail(mailOptions);
+
+    }
 
     for (var i = 0; i < jobData.length; i++) {
       jobData[i].status = jobData[i].adminStatus;
