@@ -111,11 +111,21 @@
                               <div class="card shadow p-3 mb-5 bg-white rounded">
                                 <div class="card-body">
                                     <div class = "row">
-                                        <div class="col-3 font-italic"><h6>Name : <%= applicationData[i].formData.Name.value %> </h6></div>
-                                        <div class="col-3 font-italic"><h6>DOB : <%= applicationData[i].formData.Date_Of_Birth.value %> </h6></div>
-                                        <div class="col-3 font-italic"><h6>Gender : <%= applicationData[i].formData.Gender.value %> </h6></div>
-                                        <div class="col-3 font-italic"><h6>Email : <%= applicationData[i].formData.Email.value %></h6></div>
-
+                                        <% if (applicationData[i].formData.Name) { %>
+                                            <div class="col-3 font-italic"><h6>Name : <%= applicationData[i].formData.Name.value %> </h6></div>
+                                            <% } %>
+                                            
+                                            <% if (applicationData[i].formData.Date_Of_Birth) { %>
+                                            <div class="col-3 font-italic"><h6>DOB : <%= applicationData[i].formData.Date_Of_Birth.value %> </h6></div>
+                                            <% } %>
+                                            
+                                            <% if (applicationData[i].formData.Gender) { %>
+                                            <div class="col-3 font-italic"><h6>Gender : <%= applicationData[i].formData.Gender.value %> </h6></div>
+                                            <% } %>
+                                            
+                                            <% if (applicationData[i].formData.Email) { %>
+                                            <div class="col-3 font-italic"><h6>Email : <%= applicationData[i].formData.Email.value %></h6></div>
+                                            <% } %>
                                     </div>
                                 </div> 
                                 <button class="but" style="margin-left: 37%; width: 20%;"  >View Complete Details</button>
@@ -130,7 +140,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <% for(var key in applicationData[i].formData ) { %>
-                                                        <% if (applicationData[i].formData[key].type == "text" || applicationData[i].formData[key].type == "radio" ) { %>
+                                                        <% if (applicationData[i].formData[key].type != "file" ) { %>
                                                             <tr>
                                                                 <td><%= key %></td>
                                                                 <td><%= applicationData[i].formData[key].value %></td>

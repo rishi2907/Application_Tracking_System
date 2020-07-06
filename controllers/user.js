@@ -237,17 +237,17 @@ exports.getLogin = (req, res) => {
 
 
       var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail', 
+        service: 'Yahoo', 
         auth: {
-          user: 'codenikhil123@gmail.com',
-          pass: 'qwerty@123'
+          user: 'innovaccer@yahoo.com',
+          pass: 'lkpmgahdxpmkvuyt'
           
         }
       });
 
       var mailOptions = {
         to: user.email,
-        from: 'codenikhil123@gmail.com',
+        from: 'innovaccer@yahoo.com',
         subject: 'IIITDMJ JobPortal Account Verification',
         text: 'You are receiving this because you (or someone else) have requested to create a new account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -256,6 +256,7 @@ exports.getLogin = (req, res) => {
 
       smtpTransport.sendMail(mailOptions, function(err) {
         if(err){
+          console.log(err); 
           req.flash('errors', { msg: err});
           return res.send(err);
         }
@@ -331,17 +332,17 @@ exports.getLogin = (req, res) => {
 
       
       var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail', 
+        service: 'Yahoo', 
         auth: {
-          user: 'codenikhil123@gmail.com',
-          pass: 'qwerty@123'
+          user: 'innovaccer@yahoo.com',
+          pass: 'lkpmgahdxpmkvuyt'
           
         }
       });
 
       var mailOptions = {
         to: email,
-        from: 'codenikhil123@gmail.com',
+        from: 'innovaccer@yahoo.com',
         subject: 'IIITDMJ JobPortal Password Reset',
         text: 'You are receiving this because you (or someone else) have requested to change your password.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +

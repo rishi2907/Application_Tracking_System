@@ -455,17 +455,17 @@ exports.postSignup = (req, res, next) => {
     const token = jwt.sign({ name, email, password, usertype }, "tokenGenerator", { expiresIn: '10m' });
 
     var smtpTransport = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: 'codenikhil123@gmail.com',
-        pass: 'qwerty@123'
-
-      }
+      service: 'Yahoo', 
+        auth: {
+          user: 'innovaccer@yahoo.com',
+          pass: 'lkpmgahdxpmkvuyt'
+          
+        }
     });
 
     var mailOptions = {
       to: user.email,
-      from: 'codenikhil123@gmail.com',
+      from: 'innovaccer@yahoo.com',
       subject: 'IIITDMJ JobPortal Account Verification',
       text: 'You are receiving this because you (or someone else) have requested to create a new account.\n\n' +
         'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -544,17 +544,17 @@ exports.postForgot = async (req, res) => {
 
 
     var smtpTransport = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-        user: 'codenikhil123@gmail.com',
-        pass: 'qwerty@123'
-
-      }
+      service: 'Yahoo', 
+        auth: {
+          user: 'innovaccer@yahoo.com',
+          pass: 'lkpmgahdxpmkvuyt'
+          
+        }
     });
 
     var mailOptions = {
       to: email,
-      from: 'codenikhil123@gmail.com',
+      from: 'innovaccer@yahoo.com',
       subject: 'IIITDMJ JobPortal Password Reset',
       text: 'You are receiving this because you (or someone else) have requested to change your password.\n\n' +
         'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
