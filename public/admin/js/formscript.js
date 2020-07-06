@@ -8,7 +8,7 @@ function fieldWithCheckBox(fieldName, str) {
     mySet.set((str + '#' + fieldName[i].field_name), fieldName[i]);
     if (fieldName[i].field_type == "text") {
       html += `<div class="row form-group mt-3"><div class="col-1">
-      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + '#' + fieldName[i].field_type + `')" checked></div>`;
+      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + `')" checked></div>`;
       html += `<div class="col-5"><label for="`;
       html += fieldName[i].field_name;
       html += `">`;
@@ -20,7 +20,7 @@ function fieldWithCheckBox(fieldName, str) {
       html += `"></div></div></div>`;
     } else if (fieldName[i].field_type == "file") {
       html += `<div class="row form-group mt-3"><div class="col-1">
-      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + '#' + fieldName[i].field_type + `')" checked></div>`;
+      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + `')" checked></div>`;
       html += `<div class="col-5"><label for="`;
       html += fieldName[i].field_name;
       html += `">`;
@@ -35,7 +35,7 @@ function fieldWithCheckBox(fieldName, str) {
                     </div></div>`;
     } else if (fieldName[i].field_type == "radio") {
       html += `<div class="row form-group mt-3"><div class="col-1">
-      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + '#' + fieldName[i].field_type + `')"  checked></div>`;
+      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + `')"  checked></div>`;
       html += `<div class="col-5"><label for="`;
       html += fieldName[i].field_name;
       html += `">`;
@@ -52,7 +52,56 @@ function fieldWithCheckBox(fieldName, str) {
       }
 
       html += `</select></div></div>`;
+    } else if (fieldName[i].field_type == "number") {
+      html += `<div class="row form-group mt-3"><div class="col-1">
+      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + `')" checked></div>`;
+      html += `<div class="col-5"><label for="`;
+      html += fieldName[i].field_name;
+      html += `">`;
+      html += fieldName[i].field_name;
+      html += `</label></div>`;
+
+      html += `<div class="col-6"><input type="number" class="form-control" placeholder="" id="`;
+      html += fieldName[i].field_name;
+      html += `"></div></div></div>`;
+    } else if (fieldName[i].field_type == "email") {
+      html += `<div class="row form-group mt-3"><div class="col-1">
+      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + `')" checked></div>`;
+      html += `<div class="col-5"><label for="`;
+      html += fieldName[i].field_name;
+      html += `">`;
+      html += fieldName[i].field_name;
+      html += `</label></div>`;
+
+      html += `<div class="col-6"><input type="email" class="form-control" placeholder="" id="`;
+      html += fieldName[i].field_name;
+      html += `"></div></div></div>`;
+    } else if (fieldName[i].field_type == "date") {
+      html += `<div class="row form-group mt-3"><div class="col-1">
+      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + `')" checked></div>`;
+      html += `<div class="col-5"><label for="`;
+      html += fieldName[i].field_name;
+      html += `">`;
+      html += fieldName[i].field_name;
+      html += `</label></div>`;
+
+      html += `<div class="col-6"><input type="date" class="form-control" placeholder="" id="`;
+      html += fieldName[i].field_name;
+      html += `"></div></div></div>`;
+    } else if (fieldName[i].field_type == "textarea") {
+      html += `<div class="row form-group mt-3"><div class="col-1">
+      <input type="checkbox" onclick="checkdone('`+ str + '#' + fieldName[i].field_name + `')" checked></div>`;
+      html += `<div class="col-5"><label for="`;
+      html += fieldName[i].field_name;
+      html += `">`;
+      html += fieldName[i].field_name;
+      html += `</label></div>`;
+
+      html += `<div class="col-6"><textarea rows="6" cols="50" class="form-control" placeholder="" id="`;
+      html += fieldName[i].field_name;
+      html += `"></textarea></div></div></div>`;
     } else if (fieldName[i].field_type != "checkbox") {
+
     }
   }
 
@@ -75,7 +124,7 @@ function fieldWithOutCheckBox(fieldName) {
       html += fieldName[i].field_name;
       html += `</label></div>`;
 
-      html += `<div class="col-6"><input type="text" class="form-control" placeholder="" id="`;
+      html += `<div class="col-6"><input type="text" class="form-control" value="" id="`;
       html += fieldName[i].field_name;
       html += `"></div></div></div>`;
     } else if (fieldName[i].field_type == "file") {
@@ -86,7 +135,7 @@ function fieldWithOutCheckBox(fieldName) {
       html += fieldName[i].field_name;
       html += `</label></div>`;
       html += `<div class="custom-file col-6"><input type="file" 
-                    class="custom-file-input" id="validatedCustomFile" >
+                    class="custom-file-input" id="validatedCustomFile" value="" >
                     <label class="custom-file-label" for="validatedCustomFile">`;
       html += fieldName[i].field_name;
       html += `</label>
@@ -99,7 +148,9 @@ function fieldWithOutCheckBox(fieldName) {
       html += `">`;
       html += fieldName[i].field_name;
       html += `</label></div>`;
-      html += `<div class="col-6"><select class="custom-select">`;
+      html += `<div class="col-6"><select class="custom-select" id=`
+      html += fieldName[i].field_name;
+      html += `>`;
 
       for (let j = 0; j < fieldName[i].field_value.length; j++) {
         html += `<option value="`;
@@ -110,9 +161,74 @@ function fieldWithOutCheckBox(fieldName) {
       }
 
       html += `</select></div></div>`;
-    } else if (fieldName[i].field_type != "checkbox") {
+    } else if (fieldName[i].field_type == "date") {
+      html += `<div class="row form-group mt-3">`;
+      html += `<div class="col-5"><label for="`;
+      html += fieldName[i].field_name;
+      html += `">`;
+      html += fieldName[i].field_name;
+      html += `</label></div>`;
+
+      html += `<div class="col-6"><input type="date" class="form-control" placeholder="" id="`;
+      html += fieldName[i].field_name;
+      html += `"></div></div></div>`;
+    } else if (fieldName[i].field_type == "textarea") {
+      html += `<div class="row form-group mt-3">`;
+      html += `<div class="col-5"><label for="`;
+      html += fieldName[i].field_name;
+      html += `">`;
+      html += fieldName[i].field_name;
+      html += `</label></div>`;
+
+      html += `<div class="col-6"><textarea rows="6" cols="50" class="form-control" placeholder="" id="`;
+      html += fieldName[i].field_name;
+      html += `"></textarea></div></div></div>`;
+    }
+    else if (fieldName[i].field_type != "checkbox") {
     }
   }
 
   return html;
+}
+
+
+function checkdone(str) {
+
+  let temp = str.split("#");
+
+  if (mySet.has(str)) {
+    mySet.delete(str);
+  }
+  else {
+    if (temp[0] == "personalInformation") {
+      for (let tmp of personalInformation) {
+        if (tmp.field_name == temp[1]) {
+          mySet.set(str, tmp)
+        }
+      }
+    }
+    else if (temp[0] == "educationInformation") {
+      for (let tmp of educationInformation) {
+        if (tmp.field_name == temp[1]) {
+          mySet.set(str, tmp)
+        }
+      }
+    }
+    else if (temp[0] == "experienceInformation") {
+      for (let tmp of experienceInformation) {
+        if (tmp.field_name == temp[1]) {
+          mySet.set(str, tmp)
+        }
+      }
+    }
+    else if (temp[0] == "additionalInformation") {
+      for (let tmp of additionalInformation) {
+        if (tmp.field_name == temp[1]) {
+          mySet.set(str, tmp)
+        }
+      }
+    }
+  }
+  console.log(mySet)
+
 }

@@ -8,75 +8,72 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 
 
-exports.download = async(req,res)=>{
+exports.download = async (req, res) => {
   console.log("Hello");
   var jobID = req.params.jobID;
   var fields = [];
   var data = {};
   var result = [];
   const opts = { fields };
-  
-  var jobData  = await JobData.find({jobID: jobID });
+
+  var jobData = await JobData.find({ jobID: jobID });
 
   //getting headers
-    var parsedData = JSON.parse(jobData[0].formData);
-    for (const prop in parsedData) {
-    fields.push(prop); 
-    }
-
-//getting data
-for(i=0;i<jobData.length;i++)
-{
-  data = {};
-  var parsedData = JSON.parse(jobData[i].formData);
+  var parsedData = JSON.parse(jobData[0].formData);
   for (const prop in parsedData) {
-    var temp = parsedData[prop]['value'];
-    data[prop] = temp;
+    fields.push(prop);
+  }
+
+  //getting data
+  for (i = 0; i < jobData.length; i++) {
+    data = {};
+    var parsedData = JSON.parse(jobData[i].formData);
+    for (const prop in parsedData) {
+      var temp = parsedData[prop]['value'];
+      data[prop] = temp;
     }
     result.push(data);
-}
-    var filename = '' + jobID + '.csv';
-    const downloadFile = (res, fileName, fields, jobData) => {
-      const json2csv = new Parser(opts);
-      const csv = json2csv.parse(jobData);
-      res.header('Content-Type', 'text/csv');
-      res.attachment(fileName);
-      return res.send(csv);
-    }
-    return downloadFile(res, filename, opts, result);
+  }
+  var filename = '' + jobID + '.csv';
+  const downloadFile = (res, fileName, fields, jobData) => {
+    const json2csv = new Parser(opts);
+    const csv = json2csv.parse(jobData);
+    res.header('Content-Type', 'text/csv');
+    res.attachment(fileName);
+    return res.send(csv);
+  }
+  return downloadFile(res, filename, opts, result);
 };
 
-exports.selectedDownload = async(req,res)=>{
+exports.selectedDownload = async (req, res) => {
   var jobID = req.params.jobID;
   var fields = [];
   var data = {};
   var result = [];
   const opts = { fields };
-  
-  var jobData  = await JobData.find({jobID: jobID, adminStatus: "Accepted" });
+
+  var jobData = await JobData.find({ jobID: jobID, adminStatus: "Accepted" });
   console.log(jobData);
-if(jobData.length==0)
-{
-  res.send('No candidate selected yet');
-}
-else{
+  if (jobData.length == 0) {
+    res.send('No candidate selected yet');
+  }
+  else {
     //getting headers
     var parsedData = JSON.parse(jobData[0].formData);
     for (const prop in parsedData) {
-    fields.push(prop); 
+      fields.push(prop);
     }
 
-//getting data
-for(i=0;i<jobData.length;i++)
-{
-  data = {};
-  var parsedData = JSON.parse(jobData[i].formData);
-  for (const prop in parsedData) {
-    var temp = parsedData[prop]['value'];
-    data[prop] = temp;
+    //getting data
+    for (i = 0; i < jobData.length; i++) {
+      data = {};
+      var parsedData = JSON.parse(jobData[i].formData);
+      for (const prop in parsedData) {
+        var temp = parsedData[prop]['value'];
+        data[prop] = temp;
+      }
+      result.push(data);
     }
-    result.push(data);
-}
     var filename = '' + jobID + '.csv';
     const downloadFile = (res, fileName, fields, jobData) => {
       const json2csv = new Parser(opts);
@@ -90,13 +87,13 @@ for(i=0;i<jobData.length;i++)
 };
 
 exports.selectedApplication = async (req, res) => {
-  if(req.user){
-    var jobID = req.params.jobID;  
-    var jobData  = await JobData.find({jobID: jobID, adminStatus: "Accepted" });
+  if (req.user) {
+    var jobID = req.params.jobID;
+    var jobData = await JobData.find({ jobID: jobID, adminStatus: "Accepted" });
     var result = [];
     console.log(jobData);
-   
-    for(var i=0; i<jobData.length; i++){
+
+    for (var i = 0; i < jobData.length; i++) {
       var parsedData = JSON.parse(jobData[i].formData);
 
       var objData = {
@@ -109,39 +106,39 @@ exports.selectedApplication = async (req, res) => {
       result.push(objData);
 
     }
-   
+
     res.render('admin/selectedApplication',
-    {
-      name: req.user.name,
-      usertype: req.user.usertype,
-      jobID: jobID,
-      applicationData: result
-      // totalApplications: totalApplications,
-      // pendingApplications: totalApplications-acceptedApplications-rejectedApplications,
-      // acceptedApplications: acceptedApplications,
-      // rejectedApplications: rejectedApplications
-     });
+      {
+        name: req.user.name,
+        usertype: req.user.usertype,
+        jobID: jobID,
+        applicationData: result
+        // totalApplications: totalApplications,
+        // pendingApplications: totalApplications-acceptedApplications-rejectedApplications,
+        // acceptedApplications: acceptedApplications,
+        // rejectedApplications: rejectedApplications
+      });
 
   }
-  else{
-      res.redirect('/admin/login');    
- }
+  else {
+    res.redirect('/admin/login');
+  }
 
 };
 
 
 exports.declareResult = async (req, res) => {
-  if(req.user){
-    var jobID = req.params.jobID;  
-    var jobData  = await JobData.find({jobID: jobID});
+  if (req.user) {
+    var jobID = req.params.jobID;
+    var jobData = await JobData.find({ jobID: jobID });
 
-    for(var i=0; i<jobData.length; i++){
-      jobData[i].status=jobData[i].adminStatus;
+    for (var i = 0; i < jobData.length; i++) {
+      jobData[i].status = jobData[i].adminStatus;
       jobData[i].save();
     }
 
-    var jobSchema = await JobSchema.findOne({_id: jobID});
-    jobSchema.status="resultOut";
+    var jobSchema = await JobSchema.findOne({ _id: jobID });
+    jobSchema.status = "resultOut";
     jobSchema.save();
 
     req.flash('success', { msg: 'Result Declared' });
@@ -149,58 +146,58 @@ exports.declareResult = async (req, res) => {
     res.redirect('/admin');
 
   }
-  else{
-      res.redirect('/admin/login');    
- }
+  else {
+    res.redirect('/admin/login');
+  }
 
 };
 
 
 exports.acceptApplication = async (req, res) => {
-  if(req.user){
-    var appID = req.params.appID;  
-    var userData  = await JobData.findOne({_id: appID });
+  if (req.user) {
+    var appID = req.params.appID;
+    var userData = await JobData.findOne({ _id: appID });
     userData.adminStatus = "Accepted";
     userData.save();
     res.redirect('/admin/pending/' + userData.jobID);
 
   }
-  else{
-      res.redirect('/admin/login');    
- }
+  else {
+    res.redirect('/admin/login');
+  }
 
 };
 
 
 exports.rejectApplication = async (req, res) => {
-  if(req.user){
-    var appID = req.params.appID;  
-    var userData  = await JobData.findOne({_id: appID });
+  if (req.user) {
+    var appID = req.params.appID;
+    var userData = await JobData.findOne({ _id: appID });
     userData.adminStatus = "Rejected";
     userData.save();
     res.redirect('/admin/pending/' + userData.jobID);
 
   }
-  else{
-      res.redirect('/admin/login');    
- }
+  else {
+    res.redirect('/admin/login');
+  }
 
 };
 
 exports.showApplication = async (req, res) => {
-  if(req.user){
-    var jobID = req.params.jobID;  
-    var jobData  = await JobData.find({jobID: jobID, adminStatus: "Applied" });
-   
+  if (req.user) {
+    var jobID = req.params.jobID;
+    var jobData = await JobData.find({ jobID: jobID, adminStatus: "Applied" });
+
     var result = [];
-    var totalApplications = await JobData.count({jobID: jobID});
-    var acceptedApplications = await JobData.count({jobID: jobID, adminStatus: "Accepted"});
-    var rejectedApplications = await JobData.count({jobID: jobID, adminStatus: "Rejected"});
+    var totalApplications = await JobData.count({ jobID: jobID });
+    var acceptedApplications = await JobData.count({ jobID: jobID, adminStatus: "Accepted" });
+    var rejectedApplications = await JobData.count({ jobID: jobID, adminStatus: "Rejected" });
     console.log(totalApplications);
-    
 
 
-    for(var i=0; i<jobData.length; i++){
+
+    for (var i = 0; i < jobData.length; i++) {
       var parsedData = JSON.parse(jobData[i].formData);
 
       var objData = {
@@ -213,53 +210,76 @@ exports.showApplication = async (req, res) => {
       result.push(objData);
 
     }
-   
+
     res.render('admin/showApplication',
-    {
-      name: req.user.name,
-      usertype: req.user.usertype,
-      jobID: jobID,
-      applicationData: result,
-      totalApplications: totalApplications,
-      pendingApplications: totalApplications-acceptedApplications-rejectedApplications,
-      acceptedApplications: acceptedApplications,
-      rejectedApplications: rejectedApplications
-     });
+      {
+        name: req.user.name,
+        usertype: req.user.usertype,
+        jobID: jobID,
+        applicationData: result,
+        totalApplications: totalApplications,
+        pendingApplications: totalApplications - acceptedApplications - rejectedApplications,
+        acceptedApplications: acceptedApplications,
+        rejectedApplications: rejectedApplications
+      });
 
   }
-  else{
-      res.redirect('/admin/login');    
- }
+  else {
+    res.redirect('/admin/login');
+  }
 
 };
 
 
 
 exports.showJob = async (req, res) => {
-  if(req.user){
+  if (req.user) {
     // var data = await JobSchema.find({
     //   $or: [
     //     { status: { $eq: 'open' } },
     //     { status: { $eq: 'closed' } }
     //   ]
     // });
-    var data = await JobSchema.find();  
+    var data = await JobSchema.find();
     res.render('admin/showJob',
-    {
-      name: req.user.name,
-      usertype: req.user.usertype,
-      Jobdata: data
-     });
+      {
+        name: req.user.name,
+        usertype: req.user.usertype,
+        Jobdata: data
+      });
   }
-  else{
-      res.redirect('/admin/login');    
- }
+  else {
+    res.redirect('/admin/login');
+  }
 
 };
-
+exports.getsuccessjob = (req, res) => {
+  if (req.user.usertype == "admin") {
+    req.flash('success', { msg: 'Job Successfully posted' });
+    res.redirect('/admin');
+  };
+};
 
 exports.postJobForm = async (req, res) => {
-  
+
+  // console.log(req)
+  // console.log(req.body.formdata["personalInformation#Name"])
+  let jobform = {};
+  jobform["personalInformation"] = {};
+  jobform["educationInformation"] = {};
+  jobform["experienceInformation"] = {};
+  jobform["additionalInformation"] = {};
+
+  for (let property in req.body.formdata) {
+    outer0 = property.split("#");
+    // console.log(outer0)
+    jobform[outer0[0]][outer0[1]] = { "type": req.body.formdata[property]["field_type"] }
+    // console.log("Key: " + property);
+    // console.log("Value: " + req.body.formdata[property]);
+    // formdata[k] = v;
+  }
+  console.log(jobform);
+
   var data = {
     jobtitle: req.body.jobtitle,
     salary: req.body.salary,
@@ -268,28 +288,30 @@ exports.postJobForm = async (req, res) => {
     lastdate: req.body.date,
     openingtype: req.body.openingType,
     description: req.body.description,
-    formdata: req.body.formdata,
+    formdata: JSON.stringify(jobform),
     status: "open"
   }
 
   const dataObj = new JobSchema(data);
   await dataObj.save();
-  req.flash('success', { msg: 'Job Successfully posted' });
+  // req.flash('success', { msg: 'Job Successfully posted' });
   res.redirect('/admin');
+
 
 };
 
 exports.getJobForm = (req, res) => {
-  if(req.user.usertype=="admin"){
-      res.render('admin/jobForm',{
-        name: req.user.name,
-        usertype: req.user.usertype });
-    };
+  if (req.user.usertype == "admin") {
+    res.render('admin/jobForm', {
+      name: req.user.name,
+      usertype: req.user.usertype
+    });
   };
+};
 
 exports.showChart = (req, res) => {
-    res.render('admin/showChart');
-   
+  res.render('admin/showChart');
+
 };
 
 exports.getSignup = (req, res) => {
@@ -402,14 +424,14 @@ exports.postSignup = (req, res, next) => {
   // var name = req.body.name[0].toUpperCase() +  
   //         req.body.name.slice(1);
 
-  var name=req.body.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  var name = req.body.name.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
 
   const user = new Admin({
     email: req.body.email,
     password: req.body.password,
     name: name,
     usertype: req.body.usertype
-  }); 
+  });
 
   Admin.findOne({ email: req.body.email }, (err, existingUser) => {
     if (err) { return next(err); }
@@ -451,7 +473,7 @@ exports.postSignup = (req, res, next) => {
     });
     
   });
-  
+
 };
 
 
@@ -486,7 +508,7 @@ exports.postLogin = (req, res, next) => {
       req.flash('success', { msg: 'Success! You are logged in.' });
       /*res.redirect(req.session.returnTo || '/');*/
       res.redirect('/admin');
-      
+
 
     });
   })(req, res, next);
