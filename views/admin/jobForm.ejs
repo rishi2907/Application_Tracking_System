@@ -563,7 +563,8 @@
       document.getElementById("add-field8").innerHTML = "";
     }
     function add1() {
-      let temp = document.getElementById("text-field1").value;
+      let value = document.getElementById("text-field1").value;
+      let temp = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
       console.log(temp);
       if (temp != '') {
         let html = fieldWithCheckBox([{
@@ -578,7 +579,8 @@
       document.getElementById("add-field1").innerHTML = "";
     }
     function add3() {
-      let temp = document.getElementById("text-field2").value;
+      let value = document.getElementById("text-field2").value;
+      let temp = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
       console.log(temp);
       if (temp != '') {
         let html = fieldWithCheckBox([{
@@ -593,7 +595,8 @@
       document.getElementById("add-field3").innerHTML = "";
     }
     function add5() {
-      let temp = document.getElementById("text-field3").value;
+      let value = document.getElementById("text-field3").value;
+      let temp = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
       console.log(temp);
       if (temp != '') {
         let html = fieldWithCheckBox([{
@@ -608,7 +611,8 @@
       document.getElementById("add-field5").innerHTML = "";
     }
     function add7() {
-      let temp = document.getElementById("text-field4").value;
+      let value = document.getElementById("text-field4").value;
+      let temp = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
       console.log(temp);
       if (temp != '') {
         let html = fieldWithCheckBox([{
@@ -624,7 +628,8 @@
     }
 
     function add2() {
-      let temp = document.getElementById("file-field1").value;
+      let value = document.getElementById("file-field1").value;
+      let temp = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
       console.log(temp);
       if (temp != '') {
         let html = fieldWithCheckBox([{
@@ -639,7 +644,8 @@
       document.getElementById("add-field2").innerHTML = "";
     }
     function add4() {
-      let temp = document.getElementById("file-field2").value;
+      let value = document.getElementById("file-field2").value;
+      let temp = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
       console.log(temp);
       if (temp != '') {
         let html = fieldWithCheckBox([{
@@ -654,7 +660,8 @@
       document.getElementById("add-field4").innerHTML = "";
     }
     function add6() {
-      let temp = document.getElementById("file-field3").value;
+      let value = document.getElementById("file-field3").value;
+      let temp = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
       console.log(temp);
       if (temp != '') {
         let html = fieldWithCheckBox([{
@@ -669,7 +676,8 @@
       document.getElementById("add-field6").innerHTML = "";
     }
     function add8() {
-      let temp = document.getElementById("file-field4").value;
+      let value = document.getElementById("file-field4").value;
+      let temp = value.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('_');
       console.log(temp);
       if (temp != '') {
         let html = fieldWithCheckBox([{
