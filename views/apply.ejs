@@ -499,7 +499,49 @@
         let formdata;
 
         function validateMe() {
-            console.log("rishi");
+            console.log(event.target.type);
+            if (event.target.type == "email") {
+                var value = document.getElementById(event.target.id).value;
+                console.log(value);
+                if (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(value)) {
+                    return (true)
+                }
+                document.getElementById(event.target.id).value = "";
+                alert("You have entered an invalid email address!")
+                return (false)
+            }
+            else if (event.target.type == "date") {
+                var value = document.getElementById(event.target.id).value;
+                var ToDate = new Date();
+                console.log(value);
+                if (new Date(value).getTime() >= ToDate.getTime()) {
+                    alert("Invalid " + event.target.id + " input");
+                    return false;
+                }
+                return true;
+            }
+            else if (event.target.id == "Contact_Number") {
+                var value = document.getElementById(event.target.id).value;
+                var phoneNum = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+                if (value.match(phoneNum)) {
+                    return true;
+                }
+                else {
+                    alert("Invalid Contact number");
+                    return false;
+                }
+            }
+            else if (event.target.id == "Graduation_CPI" || event.target.id == "Post_Graduation_CPI" || event.target.id == "Phd_CPI") {
+                var value = document.getElementById(event.target.id).value;
+                var phoneNum = 10;
+                if (value > 0 && value <= phoneNum) {
+                    return true;
+                }
+                else {
+                    alert("CPI can not be less then 0 and greater then 10");
+                    return false;
+                }
+            }
         }
         function checkEnter(e) {
             e = e || event;
@@ -519,7 +561,7 @@
                     html += property;
                     html += `</label></div>`;
 
-                    html += `<div class="col-6"><input type="text"  required class="form-control" onchange="validateMe();" name="`;
+                    html += `<div class="col-6"><input type="text"  required class="form-control" onchange="validateMe()" name="`;
                     html += property + "$" + formdata[property]["type"];
                     html += `" placeholder="" id="`;
                     html += property;
@@ -548,7 +590,7 @@
                     html += `">`;
                     html += property;
                     html += `</label></div>`;
-                    html += `<div class="col-6"><select class="custom-select" name="`;
+                    html += `<div class="col-6"><select class="custom-select" onchange="validateMe()" name="`;
                     html += property + "$" + formdata[property]["type"];
                     html += `" placeholder="" id="`;
                     html += property
@@ -572,7 +614,7 @@
                     html += property;
                     html += `</label></div>`;
 
-                    html += `<div class="col-6"><input type="number" required class="form-control" name="`;
+                    html += `<div class="col-6"><input type="number" required onchange="validateMe()" class="form-control" name="`;
                     html += property + "$" + formdata[property]["type"];
                     html += `" placeholder="" id="`;
                     html += property;
@@ -586,7 +628,7 @@
                     html += property;
                     html += `</label></div>`;
 
-                    html += `<div class="col-6"><input type="email" required class="form-control" name="`;
+                    html += `<div class="col-6"><input type="email" required onchange="validateMe()" class="form-control" name="`;
                     html += property + "$" + formdata[property]["type"];
                     html += `" placeholder="" id="`;
                     html += property;
@@ -600,7 +642,7 @@
                     html += property;
                     html += `</label></div>`;
 
-                    html += `<div class="col-6"><input type="date" required class="form-control" name="`;
+                    html += `<div class="col-6"><input type="date" required onchange="validateMe()" class="form-control" name="`;
                     html += property + "$" + formdata[property]["type"];
                     html += `" placeholder="" id="`;
                     html += property;
@@ -614,7 +656,7 @@
                     html += property;
                     html += `</label></div>`;
 
-                    html += `<div class="col-6"><textarea rows="6" cols="50" required class="form-control" name="`;
+                    html += `<div class="col-6"><textarea rows="6" cols="50" onchange="validateMe()" required class="form-control" name="`;
                     html += property + "$" + formdata[property]["type"];
                     html += `" placeholder="" id="`;
                     html += property;
