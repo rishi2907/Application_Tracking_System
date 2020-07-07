@@ -23,13 +23,9 @@
 <body>
 
 
-  <% if(name=="login_req") {%>
+  
   <%- include('./partials/header1'); -%>
-  <% } %>
-
-  <% if(name!="login_req") {%>
-  <%- include('./partials/header2'); -%>
-  <% } %>
+  
 
   <% if(messages.errors) {%>
     <div class="alert alert-danger fade show">
@@ -71,57 +67,18 @@
   <%}%>
 
 
-  <div class="outer">
-    <img src="https://www.iiitdmj.ac.in/img/slides/2.jpg" alt="iiitdm" height="600" width="100%" />
-    <!-- <img src="/images/iiitdm.jpg" alt="iiitdm" height="600" width="100%"  /> -->
-    <form method="GET" action="/button1">
-      <button class="button1">Technical Openings</button>
-    </form>
-
-    <form method="GET" action="/button2">
-      <button class="button2">Non Technical Openings</button>
-    </form>
-    <!-- <button class="button1">Technical Openings</button> -->
-    <!-- <button class="button2">NonTechnical Openings</button> -->
-  </div>
-
-  <% for(var i=0; i< Jobdata.length ; i++) {%>
-  <div class="container">
-    <div class="card shadow p-3 mb-5 bg-white rounded">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-8">
-            <h3 class="card-title"><%= Jobdata[i].jobtitle %></h3>
-          </div>
-          <!-- <%= Jobdata[i]._id %> -->
-          <div class="col-4"><a href="/apply/jobId/<%= Jobdata[i]._id %>"
-              class="btn btn-primary stretched-link float-right">Apply Now</a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-4 font-italic">
-            <h6>Experience Required : <%= Jobdata[i].experience %> </h6>
-          </div>
-          <div class=" col-4 font-italic">
-            <h6>Salary offer : <%= Jobdata[i].salary %> </h6>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-4 font-italic">
-            <h6>Last date to apply : <%= Jobdata[i].lastdate %></h6>
-          </div>
-          <div class="col-4 font-italic">
-            <h6>Eligibility : <%= Jobdata[i].eligibility %></h6>
-          </div>
-        </div>
-        <p> <%= Jobdata[i].description %>
-      </div>
-      </p>
+  <div class="pb-2 mt-2 mb-4 border-bottom">
+    <h3><center>Forgot Password</center></h3>
+</div>
+<form method="POST"><input type="hidden" name="_csrf" />
+    <div class="form-group row"><label class="col-md-3 col-form-label font-weight-bold text-right" for="email">Email</label>
+        <div class="col-md-7"><input class="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="autofocus" autocomplete="email" required="required" /></div>
     </div>
-  </div>
-  <% } %>
+    <div class="form-group offset-sm-3 col-md-7 pl-2"><button class="btn btn-primary" type="submit"><i class="fa fa-key fa-sm"></i>Reset Password</button></div>
 
-  <%- include('./partials/footer'); -%>
+
+</form>
+
 </body>
 
 </html>

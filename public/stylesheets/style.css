@@ -22,7 +22,7 @@ a {
 .outer .button1 {
   position: absolute;
   top: 50%;
-  left:35%;
+  left:32%;
   background-color: white;
   color: blue;
   font-size: 16px;
@@ -36,7 +36,7 @@ a {
 .outer .button2 {
   position: absolute;
   top: 50%;
-  right: 35%;
+  left: 50%;
   background-color: white;
   color: blue;
   font-size: 16px;
@@ -45,4 +45,34 @@ a {
   cursor: pointer;
   border-radius: 20px;
   font-weight: 700;
+}
+
+@media only screen and (max-width: 700px) {
+  .outer .button1 {
+    position: absolute;
+    top: 25%;
+    left:33%;
+    background-color: white;
+    color: blue;
+    font-size: 16px;
+    /* padding: 12px 24px; */
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 20px;
+  }
+  
+  .outer .button2 {
+    position: absolute;
+    top: 60%;
+    left: 30%;
+    background-color: white;
+    color: blue;
+    font-size: 16px;
+    /* padding: 12px 24px; */
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    font-weight: 700;
+  }
 }

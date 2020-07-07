@@ -4,6 +4,9 @@ const User = require('../models/User');
 var {getJobCard}= require('../routes/JobCard');
 const JobSchema = require('../models/JobSchema');
 const JobData = require('../models/JobData');
+const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+const { ReplSet } = require('mongodb');
 
 
 
@@ -41,7 +44,25 @@ exports.clickButton1 = (req, res) => {
 
 
 exports.clickButton2 = async (req, res) => {
-  var data = await JobSchema.find({openingtype:"nontechnical", status:"open"});
+  var tempData = await JobSchema.find({openingtype:"nontechnical", status:"open"});
+  var data = [];
+
+  var today = new Date();
+  var todayDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  
+  
+
+  for(i=0; i<tempData.length; i++ ){
+    if(new Date(tempData[i].lastdate) < new Date(todayDate) ){
+      tempData[i].status = "closed";
+      tempData[i].save();
+
+    }
+    else{
+      data.push(tempData[i]);
+    }
+
+  }
   if(req.user){
    res.render('index', {
      name: req.user.name,
@@ -131,6 +152,50 @@ exports.getLogin = (req, res) => {
   };
 
 
+  // exports.postSignup = (req, res, next) => {
+  //   console.log("signup route visited");
+  //   const validationErrors = [];
+  //   if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' });
+  //   if (!validator.isLength(req.body.password, { min: 8 })) validationErrors.push({ msg: 'Password must be at least 8 characters long' });
+  //   if (req.body.password !== req.body.confirmPassword) validationErrors.push({ msg: 'Passwords do not match' });
+  
+  //   if (validationErrors.length) {
+  //     req.flash('errors', validationErrors);
+  //     return res.redirect('/signup');
+  //   }
+  //   req.body.email = validator.normalizeEmail(req.body.email, { gmail_remove_dots: false });
+  //   // var name = req.body.name[0].toUpperCase() +  
+  //   //         req.body.name.slice(1);
+
+  //   var name=req.body.name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  
+  //   const user = new User({
+  //     email: req.body.email,
+  //     password: req.body.password,
+  //     name: name
+  //   }); 
+  
+    // User.findOne({ email: req.body.email }, (err, existingUser) => {
+    //   if (err) { return next(err); }
+    //   if (existingUser) {
+    //     req.flash('errors', { msg: 'Account with that email address already exists.' });
+    //     return res.redirect('/signup');
+    //   }
+    //   user.save((err) => {
+    //     if (err) { return next(err); }
+    //     res.redirect('/login');
+    //     /*req.logIn(user, (err) => {
+    //       if (err) {
+    //         return next(err);
+    //       }
+    //       res.redirect('/');
+    //     });*/
+    //   });
+    // });
+    
+  // };
+
+
   exports.postSignup = (req, res, next) => {
     console.log("signup route visited");
     const validationErrors = [];
@@ -160,16 +225,201 @@ exports.getLogin = (req, res) => {
         req.flash('errors', { msg: 'Account with that email address already exists.' });
         return res.redirect('/signup');
       }
-      user.save((err) => {
-        if (err) { return next(err); }
-        res.redirect('/login');
-        /*req.logIn(user, (err) => {
-          if (err) {
-            return next(err);
-          }
-          res.redirect('/');
-        });*/
+
+      const name = user.name;
+      const email = user.email;
+      const password = user.password;
+
+      const token = jwt.sign({name,email,password}, "tokenGenerator", {expiresIn: '10m'});
+    
+      // console.log(user.email + " " + user.password + "---------------------------");
+      // console.log(token);   
+
+
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Yahoo', 
+        auth: {
+          user: 'innovaccer@yahoo.com',
+          pass: 'lkpmgahdxpmkvuyt'
+          
+        }
       });
+
+      var mailOptions = {
+        to: user.email,
+        from: 'innovaccer@yahoo.com',
+        subject: 'IIITDMJ JobPortal Account Verification',
+        text: 'You are receiving this because you (or someone else) have requested to create a new account.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://' + req.headers.host + '/verifyToken/' + token + '\n\n'
+      };
+
+      smtpTransport.sendMail(mailOptions, function(err) {
+        if(err){
+          console.log(err); 
+          req.flash('errors', { msg: err});
+          return res.send(err);
+        }
+        else
+        req.flash('success', { msg: 'Verification token is sent on your email-id click on the token to verify and activate your account' });
+        
+        return res.redirect("/login");
+      });
+      
+    });
+    
+  };
+
+
+  exports.verifyToken = (req, res, next) => {
+
+    const token = req.params.token;
+
+    if(token){
+      jwt.verify(token,"tokenGenerator",function(err, decodedToken){
+        if(err){
+          req.flash('errors', { msg: 'Token is either invalid or it has expired' });
+          return res.redirect('/login');
+        }
+        const {name, email, password} = decodedToken;
+        
+        const user = new User({
+          email: email,
+          password: password,
+          name: name
+        }); 
+        User.findOne({ email: email }, (err, existingUser) => {
+          if (err) { return next(err); }
+          if (existingUser) {
+            req.flash('errors', { msg: 'Account with that email address already exists.' });
+            return res.redirect('/signup');
+          }
+          user.save((err) => {
+            if (err) { return next(err); }
+            return res.redirect('/login');
+          });
+        });
+
+      });
+    }
+    else{
+      res.redirect('/');
+    }
+    
+    
+  };
+
+  exports.getForgot = async (req, res) => {
+    if(req.user){
+      return res.redirect('/');
+
+    }else{
+
+      return res.render('forgot', {});
+   }
+   
+  };
+
+  exports.postForgot = async (req, res) => {
+    if(req.user){
+      res.redirect('/');
+
+    }else{
+      const email = req.body.email;
+      console.log(email+ "------------------------------");
+
+      const token = jwt.sign({email}, "tokenGenerator", {expiresIn: '10m'});
+
+      
+      var smtpTransport = nodemailer.createTransport({
+        service: 'Yahoo', 
+        auth: {
+          user: 'innovaccer@yahoo.com',
+          pass: 'lkpmgahdxpmkvuyt'
+          
+        }
+      });
+
+      var mailOptions = {
+        to: email,
+        from: 'innovaccer@yahoo.com',
+        subject: 'IIITDMJ JobPortal Password Reset',
+        text: 'You are receiving this because you (or someone else) have requested to change your password.\n\n' +
+          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+          'http://' + req.headers.host + '/changePassword/' + token + '\n\n'
+      };
+
+      smtpTransport.sendMail(mailOptions, function(err) {
+        if(err){
+          req.flash('errors', { msg: err});
+          return res.send(err);
+        }
+        else
+        req.flash('success', { msg: 'link to reset your password has been sent on youe email' });
+        
+        res.redirect("/login");
+      });
+
+   }
+   
+  };
+
+  exports.changePassword = (req, res, next) => {
+
+    const token = req.params.token;
+
+    if(token){
+      jwt.verify(token,"tokenGenerator",function(err, decodedToken){
+        if(err){
+          req.flash('errors', { msg: 'Token is either invalid or it has expired' });
+          return res.redirect('/login');
+        }
+        const {email} = decodedToken;
+        
+        User.findOne({ email: email }, (err, existingUser) => {
+          if (err) { return next(err); }
+          if (existingUser) {
+            return res.render('reset', {email: email});
+          }
+          req.flash('errors', { msg: 'invalid Email-id or Token' });
+          return res.redirect('/');
+
+        });
+
+      });
+    }
+    else{
+      res.redirect('/');
+    }
+    
+    
+  };
+
+
+  exports.updatePassword = (req, res, next) => {
+
+    validationErrors = [];
+
+    const token = req.params.token;
+    // console.log(req.body.email + req.body.password1 + " " + req.body.password2  );
+
+    if (!validator.isLength(req.body.password1, { min: 8 })) validationErrors.push({ msg: 'Password must be at least 8 characters long' });
+    if (req.body.password1 !== req.body.password2) validationErrors.push({ msg: 'Passwords do not match' });
+  
+    if (validationErrors.length) {
+      req.flash('errors', validationErrors);
+      return res.redirect('back');
+    }
+
+    User.findOne({ email: req.body.email }, (err, existingUser) => {
+      if (err) { return next(err); }
+
+      existingUser.password = req.body.password1;
+      existingUser.save();
+      
+      req.flash('success', { msg: 'Your Password has been changed'  });
+      return res.redirect('/login');
+      
     });
     
   };

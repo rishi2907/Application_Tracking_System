@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
+        <title>Admin Panel</title>
         <link href="/admin/css/style.css" rel="stylesheet" />
         <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
@@ -72,10 +72,21 @@
                               <div class="card shadow p-3 mb-5 bg-white rounded">
                                 <div class="card-body">
                                     <div class = "row">
+                                        <% if (applicationData[i].formData.Name) { %>
                                         <div class="col-3 font-italic"><h6>Name : <%= applicationData[i].formData.Name.value %> </h6></div>
+                                        <% } %>
+                                        
+                                        <% if (applicationData[i].formData.Date_Of_Birth) { %>
                                         <div class="col-3 font-italic"><h6>DOB : <%= applicationData[i].formData.Date_Of_Birth.value %> </h6></div>
+                                        <% } %>
+                                        
+                                        <% if (applicationData[i].formData.Gender) { %>
                                         <div class="col-3 font-italic"><h6>Gender : <%= applicationData[i].formData.Gender.value %> </h6></div>
+                                        <% } %>
+                                        
+                                        <% if (applicationData[i].formData.Email) { %>
                                         <div class="col-3 font-italic"><h6>Email : <%= applicationData[i].formData.Email.value %></h6></div>
+                                        <% } %>
 
                                     </div>
                                 </div> 
@@ -91,7 +102,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <% for(var key in applicationData[i].formData ) { %>
-                                                        <% if (applicationData[i].formData[key].type == "text" || applicationData[i].formData[key].type == "radio" ) { %>
+                                                        <% if (applicationData[i].formData[key].type != "file" ) { %>
                                                             <tr>
                                                                 <td><%= key %></td>
                                                                 <td><%= applicationData[i].formData[key].value %></td>
