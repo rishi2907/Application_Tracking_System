@@ -184,6 +184,18 @@ function fieldWithOutCheckBox(fieldName) {
       html += fieldName[i].field_name;
       html += `"></textarea></div></div></div>`;
     }
+    else if (fieldName[i].field_type == "number") {
+      html += `<div class="row form-group mt-3">`;
+      html += `<div class="col-5"><label for="`;
+      html += fieldName[i].field_name;
+      html += `">`;
+      html += fieldName[i].field_name;
+      html += `</label></div>`;
+
+      html += `<div class="col-6"><input type="number" class="form-control" placeholder="" id="`;
+      html += fieldName[i].field_name;
+      html += `"></div></div></div>`;
+    }
     else if (fieldName[i].field_type != "checkbox") {
     }
   }
