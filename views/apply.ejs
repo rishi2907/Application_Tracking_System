@@ -515,6 +515,7 @@
                 var ToDate = new Date();
                 console.log(value);
                 if (new Date(value).getTime() >= ToDate.getTime()) {
+                    document.getElementById(event.target.id).value = "";
                     alert("Invalid " + event.target.id + " input");
                     return false;
                 }
@@ -527,6 +528,7 @@
                     return true;
                 }
                 else {
+                    document.getElementById(event.target.id).value = "";
                     alert("Invalid Contact number");
                     return false;
                 }
@@ -538,6 +540,7 @@
                     return true;
                 }
                 else {
+                    document.getElementById(event.target.id).value = "";
                     alert("CPI can not be less then 0 and greater then 10");
                     return false;
                 }
