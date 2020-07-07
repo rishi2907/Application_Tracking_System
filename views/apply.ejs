@@ -498,6 +498,15 @@
         let result;
         let formdata;
 
+        function validateMe() {
+            console.log("rishi");
+        }
+        function checkEnter(e) {
+            e = e || event;
+            var txtArea = /textarea/i.test((e.target || e.srcElement).tagName);
+            return txtArea || (e.keyCode || e.which || e.charCode || 0) !== 13;
+        }
+
         function htmlGenerator(stepper, formdata) {
             let html = '';
             for (let property in formdata) {
@@ -510,7 +519,7 @@
                     html += property;
                     html += `</label></div>`;
 
-                    html += `<div class="col-6"><input type="text" required class="form-control" name="`;
+                    html += `<div class="col-6"><input type="text"  required class="form-control" onchange="validateMe();" name="`;
                     html += property + "$" + formdata[property]["type"];
                     html += `" placeholder="" id="`;
                     html += property;
@@ -671,6 +680,7 @@
             document.getElementById("fs-educationInformation").innerHTML = htmlGenerator("educationInformation", formdata["educationInformation"]);
             document.getElementById("fs-experienceInformation").innerHTML = htmlGenerator("experienceInformation", formdata["experienceInformation"]);
             document.getElementById("fs-additionalInformation").innerHTML = htmlGenerator("additionalInformation", formdata["additionalInformation"]);
+            document.querySelector('form').onkeypress = checkEnter;
         }
 
     </script>

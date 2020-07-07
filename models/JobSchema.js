@@ -8,6 +8,7 @@ const JobSchema = new mongoose.Schema({
     lastdate: String,
     openingtype: String,
     description: String,
+    amount: String,
     formdata: String,
     status: String
 });
