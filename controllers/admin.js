@@ -134,15 +134,15 @@ exports.declareResult = async (req, res) => {
     // console.log(jobData);
 
     var smtpTransport = nodemailer.createTransport({
-      service: 'Yahoo', 
-        auth: {
-          user: 'innovaccer@yahoo.com',
-          pass: 'lkpmgahdxpmkvuyt'
-          
-        }
+      service: 'Yahoo',
+      auth: {
+        user: 'innovaccer@yahoo.com',
+        pass: 'lkpmgahdxpmkvuyt'
+
+      }
     });
 
-    for(var i=0; i<jobData.length;i++){
+    for (var i = 0; i < jobData.length; i++) {
       var mailOptions = {
         to: jobData[i].emailID,
         from: 'innovaccer@yahoo.com',
@@ -317,6 +317,7 @@ exports.postJobForm = async (req, res) => {
     lastdate: req.body.date,
     openingtype: req.body.openingType,
     description: req.body.description,
+    amount: req.body.amount,
     formdata: JSON.stringify(jobform),
     status: "open"
   }
@@ -477,12 +478,12 @@ exports.postSignup = (req, res, next) => {
     const token = jwt.sign({ name, email, password, usertype }, "tokenGenerator", { expiresIn: '10m' });
 
     var smtpTransport = nodemailer.createTransport({
-      service: 'Yahoo', 
-        auth: {
-          user: 'innovaccer@yahoo.com',
-          pass: 'lkpmgahdxpmkvuyt'
-          
-        }
+      service: 'Yahoo',
+      auth: {
+        user: 'innovaccer@yahoo.com',
+        pass: 'lkpmgahdxpmkvuyt'
+
+      }
     });
 
     var mailOptions = {
@@ -566,12 +567,12 @@ exports.postForgot = async (req, res) => {
 
 
     var smtpTransport = nodemailer.createTransport({
-      service: 'Yahoo', 
-        auth: {
-          user: 'innovaccer@yahoo.com',
-          pass: 'lkpmgahdxpmkvuyt'
-          
-        }
+      service: 'Yahoo',
+      auth: {
+        user: 'innovaccer@yahoo.com',
+        pass: 'lkpmgahdxpmkvuyt'
+
+      }
     });
 
     var mailOptions = {
